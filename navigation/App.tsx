@@ -2,7 +2,9 @@ import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { useEffect } from 'react';
 import { Platform, StatusBar } from 'react-native';
 import { useFonts } from 'expo-font';
-import { useData } from '../hooks';
+import { TranslationProvider, ThemeProvider, useData } from '../hooks';
+import Menu from './Menu';
+import Loading from '../screens/Loading';
 
 
 export default () => {
@@ -39,4 +41,18 @@ export default () => {
             background: String(theme.colors.background),
         },
     };
+
+    if (!fontsLoaded) {
+        return <Loading/>
+    }
+
+    return (
+        <TranslationProvider>
+            <ThemeProvider theme={theme} setTheme={setTheme}>
+                <NavigationContainer theme={navigationTheme}>
+                    <Menu/>
+                </NavigationContainer>
+            </ThemeProvider>
+        </TranslationProvider>
+    )
 };

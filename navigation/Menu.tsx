@@ -3,6 +3,7 @@ import React from 'react';
 import { Block } from '../components';
 import { useData, useTheme } from '../hooks';
 import { AuthProvider } from '../hooks/useAuth';
+import Router from './Router';
 
 export default () => {
 
@@ -12,7 +13,7 @@ export default () => {
     return (
         <Block gradient={gradients[isDark ? 'dark' : 'light']}>
             <AuthProvider>
-                
+                <Router/>
             </AuthProvider>
         </Block>
     )
