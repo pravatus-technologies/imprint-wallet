@@ -1,4 +1,13 @@
 {
+  "app": {
+    "name": "imprint",
+    "tagline": "Secure Identity"
+  },
+  "signup": {
+    "title": "Create a Main Password",
+    "subtitle": "",
+    "info": "Your password is only stored on this device for security purposes and cannot be recovered. It must contain a minimum of 12 characters and include at least 1 special symbol."
+  },
   "common": {
     "appDetails": "App Details",
     "appName": "App name",
@@ -31,6 +40,7 @@
     "emailPlaceholder": "Enter your email address",
     "password": "Password",
     "passwordPlaceholder": "Enter a password",
+    "confirmPasswordPlaceholder": "Confirm Password",
     "agree": "I agree with the ",
     "terms": "Terms and Conditions",
     "signup": "Sign Up",
@@ -47,12 +57,6 @@
       "other": "{{count}} guests",
       "zero": "0 Guests"
     }
-  },
-  "app": {
-    "name": "Soft UI",
-    "fullname": "Soft UI Kit",
-    "native": "React Native",
-    "link": "creative-tim.com"
   },
   "darkMode": "Dark Mode",
   "navigation": {
@@ -95,10 +99,6 @@
     "book": "Book",
     "booked": "Booked",
     "contactUs": "Contact us"
-  },
-  "register": {
-    "title": "Welcome",
-    "subtitle": "Register with"
   },
   "login": {
     "title": "Welcome",
