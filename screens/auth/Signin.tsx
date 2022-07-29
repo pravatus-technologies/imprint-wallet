@@ -4,6 +4,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useCallback, useEffect, useState } from "react";
 import { Platform } from "react-native";
 
+import * as regex from '../../constants/regex';
 import { Block, Button, Image, Input, Text } from "../../components";
 import { AuthStackParamList } from "../../constants/types";
 import { useAuth, useData, useTheme, useTranslation } from "../../hooks";
@@ -12,9 +13,17 @@ export type AuthNavigationProps = NativeStackScreenProps<AuthStackParamList, "Si
 
 const isAndroid = Platform.OS === "android";
 
+interface IPasswordValidator {
+  password: boolean,
+};
+
+interface IPasswordEntry {
+  password: string,
+};
+
 export default ({ navigation }: AuthNavigationProps) => {
   // Data and Authentication
-  const { account, signIn, getAccount } = useAuth();
+  const { account, authenticate, getAccount } = useAuth();
 
   // Translation Provider
   const { t } = useTranslation();
@@ -22,6 +31,30 @@ export default ({ navigation }: AuthNavigationProps) => {
   // Theme Provider and Values
   const { isDark } = useData();
   const { assets, colors, gradients, sizes } = useTheme();
+
+  const [isValid, setIsValid] = useState<IPasswordValidator>({
+    password: false,
+  });
+
+  const [passwordEntry, setPassword] = useState<IPasswordEntry>({
+    password: '',
+  });
+
+  const handleChange = useCallback((value) => {
+    setPassword((state) => ({ ...state, ...value }))
+  }, [setPassword]);
+
+  /***
+   * 
+   * Track changes and state of Password entry
+   * 
+   */
+  useEffect(() => {
+    setIsValid((state) => ({
+      ...state,
+      password: regex.password.test(passwordEntry.password)
+    }));
+  }, [passwordEntry, setIsValid]);
 
   /***
    * 
@@ -39,7 +72,7 @@ export default ({ navigation }: AuthNavigationProps) => {
       } 
     });
   // Monitor changes to the account object
-  }, [account])
+  }, [account]);
 
   return (
     <Block safe marginTop={sizes.md}>
@@ -83,17 +116,17 @@ export default ({ navigation }: AuthNavigationProps) => {
                 autoCapitalize="none"
                 marginBottom={sizes.m}
                 placeholder="Enter your password"
-                onChangeText={(value) => console.log(`Password ${value}`)}
-                success={Boolean(true)}
-                danger={Boolean(false)}
+                onChangeText={(value) => handleChange({ password: value })}
+                success={Boolean(isValid.password)}
+   
               />
             </Block>
             <Button
-              onPress={() => console.log(`Handle signin please...`)}
+              onPress={() => console.log(`Password entered: ${passwordEntry.password}`)}
               marginVertical={sizes.s}
               marginHorizontal={sizes.sm}
               gradient={gradients.primary}
-              disabled={Boolean(false)}
+              disabled={Boolean(!isValid.password)}
             >
               <Text bold white transform="uppercase">
                 {t("common.signin")}
