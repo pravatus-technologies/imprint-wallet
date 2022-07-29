@@ -145,11 +145,13 @@ export interface INotification {
 }
 
 export interface IAuthContext {
-  user?: any,
-  setUser?: any,
+  account?: any,
+  setAccount?: any,
   signIn?: any,
   signOut?: any,
   register?: any,
+  authenticate?: any,
+  getAccount?: any,
 }
 
 export type WalletStackParamList = {
@@ -178,7 +180,12 @@ export interface IWallet {
 
 export interface IAccount {
   password: string;
-  rootPrivateKey: string;
-  rootPublicKey: string;
-  wallets: IWallet[];
+  rootPrivateKey?: string;
+  rootPublicKey?: string;
+  wallets?: IWallet[];
+}
+
+export type AuthStackParamList = {
+  Signin: undefined,
+  Signup: undefined,
 }

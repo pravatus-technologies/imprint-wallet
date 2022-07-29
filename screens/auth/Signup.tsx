@@ -4,6 +4,7 @@ import { Platform } from 'react-native';
 import { Block, Text, Input, Checkbox, Button } from '../../components';
 import * as regex from '../../constants/regex';
 import { useData, useTheme, useTranslation } from '../../hooks';
+import { useAuth } from '../../hooks';
 
 const isAndroid = Platform.OS === 'android';
 
@@ -24,6 +25,9 @@ const Signup = () => {
     const {isDark} = useData();
     const {t} = useTranslation();
     const {colors, gradients, sizes} = useTheme();
+
+    // Auth services
+    const {register, account} = useAuth();
 
     // Tracks the state of the validation object. This makes sure
     // that whatever we enter into the form is valid.
@@ -52,6 +56,12 @@ const Signup = () => {
             agreed: registration.agreed
         }));
     }, [registration, setIsValid]);
+
+    const handleCreateAccount = useCallback(async () => {
+        register({ password: registration.password});
+
+        console.log(`Account => ${JSON.stringify(account)}`);
+    }, [isValid, registration])
 
     return (
         <Block safe marginTop={sizes.md}>
@@ -138,7 +148,7 @@ const Signup = () => {
                                 </Text>
                             </Block>
                             <Button 
-                                onPress={() => console.log(`Registration: ${JSON.stringify(registration)}`)}
+                                onPress={handleCreateAccount}
                                 marginVertical={sizes.s}
                                 gradient={gradients.primary}
                                 disabled={false}>

@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { Text } from 'react-native';
 import { JSHash, CONSTANTS } from 'react-native-hash';
 import Signup from '../screens/auth/Signup';
+import Signin from '../screens/auth/Signin';
 
 
 
@@ -19,8 +20,9 @@ const AuthStack = createStackNavigator();
 
 const AuthStackNavigator = () => {
     return (
-        <AuthStack.Navigator screenOptions={{ headerShown: false}}>
+        <AuthStack.Navigator screenOptions={{ headerShown: false}} initialRouteName="Signin">
             <AuthStack.Screen name="Signup" component={Signup}/>
+            <AuthStack.Screen name="Signin" component={Signin}/>
         </AuthStack.Navigator>
     )
 }
