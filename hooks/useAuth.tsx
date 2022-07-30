@@ -5,7 +5,7 @@ import * as SecureStore from 'expo-secure-store';
 import { IAccount, IAuthContext } from '../constants/types';
 // import { Platform } from 'react-native';
 
-const APP_ID='digi1';
+const APP_ID='IMPRINT4';
 
 export const AuthContext = React.createContext({});
 export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
@@ -13,18 +13,11 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     const register = async (acct : IAccount) => {
+        // TODO: Error handler?
         const password = await JSHash(acct.password, CONSTANTS.HashAlgorithms.sha256);
         acct.password = password;
-        // let options: SecureStore.SecureStoreOptions = { 
-        //     authenticationPrompt: 'Authentication required to unlock your keys. ',
-        //     requireAuthentication: true,
-        // }
-
-        // options = (Platform.OS !== 'android' 
-        //     ? 
-        //     {...options, keychainAccessible: SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY } 
-        //     : options);
-        SecureStore.setItemAsync(APP_ID, JSON.stringify(acct));
+        
+        await SecureStore.setItemAsync(APP_ID, JSON.stringify(acct));
     };
 
     /***
@@ -53,11 +46,9 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
      * Get the account from Secure Storage and set it's value.
      * 
      */
-    const checkAccountExists = async () => {
-        if (!account) {
-            const acct = JSON.parse(await SecureStore.getItemAsync(APP_ID) as string);
-            setAccount(acct);
-        }
+    const checkAccountExists = async (): Promise<boolean> => {
+        const result = await SecureStore.getItemAsync(APP_ID);
+        return Promise.resolve(result !== null);
     }
 
     const contextValue = {

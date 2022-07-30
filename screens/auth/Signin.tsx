@@ -3,13 +3,13 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useCallback, useEffect, useState } from "react";
 import { Platform } from "react-native";
-
+import * as SecureStore from 'expo-secure-store';
 import * as regex from '../../constants/regex';
 import { Block, Button, Image, Input, Text } from "../../components";
 import { AuthStackParamList } from "../../constants/types";
 import { useAuth, useData, useTheme, useTranslation } from "../../hooks";
 
-export type AuthNavigationProps = NativeStackScreenProps<AuthStackParamList, "Signin">;
+type AuthNavigationProps = NativeStackScreenProps<AuthStackParamList, "Signin">;
 
 const isAndroid = Platform.OS === "android";
 
@@ -70,15 +70,12 @@ export default ({ navigation }: AuthNavigationProps) => {
    */
   useEffect(() => {
     (async () => {
-      // Check if the account exists
-      await checkAccountExists();
-
-      if (!account) {
+      // TODO: expose the app constants into a constants export
+      const result = await SecureStore.getItemAsync('IMPRINT4');
+      if (result === null)
         navigation.replace("Signup");
-      } 
-    });
-  // Monitor changes to the account object
-  }, [account]);
+    })();
+  }, []);
 
   return (
     <Block safe marginTop={sizes.md}>

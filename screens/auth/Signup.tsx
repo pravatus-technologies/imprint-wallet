@@ -5,6 +5,8 @@ import { Block, Text, Input, Checkbox, Button } from '../../components';
 import * as regex from '../../constants/regex';
 import { useData, useTheme, useTranslation } from '../../hooks';
 import { useAuth } from '../../hooks';
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { AuthStackParamList } from "../../constants/types";
 
 const isAndroid = Platform.OS === 'android';
 
@@ -20,14 +22,15 @@ interface IRegistration {
     agreed: boolean
 }
 
-const Signup = () => {
+type AuthNavigationProps = NativeStackScreenProps<AuthStackParamList, "Signin">;
+export default ({ navigation }: AuthNavigationProps) => {
     // Translations and Theme
     const {isDark} = useData();
     const {t} = useTranslation();
     const {colors, gradients, sizes} = useTheme();
 
     // Auth services
-    const {register, account} = useAuth();
+    const {register} = useAuth();
 
     // Tracks the state of the validation object. This makes sure
     // that whatever we enter into the form is valid.
@@ -58,9 +61,11 @@ const Signup = () => {
     }, [registration, setIsValid]);
 
     const handleCreateAccount = useCallback(async () => {
+        // TODO: error handler here perhaps?
         register({ password: registration.password});
 
-        console.log(`Account => ${JSON.stringify(account)}`);
+        // TODO: expose Signin screenname to constants
+        navigation.replace("Signin");
     }, [isValid, registration])
 
     return (
@@ -166,5 +171,3 @@ const Signup = () => {
         </Block>
     );
 };
-
-export default Signup;
