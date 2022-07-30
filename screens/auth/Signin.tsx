@@ -23,7 +23,7 @@ interface IPasswordEntry {
 
 export default ({ navigation }: AuthNavigationProps) => {
   // Data and Authentication
-  const { account, authenticate, getAccount } = useAuth();
+  const { account, authenticate, checkAccountExists } = useAuth();
 
   // Translation Provider
   const { t } = useTranslation();
@@ -44,6 +44,12 @@ export default ({ navigation }: AuthNavigationProps) => {
     setPassword((state) => ({ ...state, ...value }))
   }, [setPassword]);
 
+  const handleAuthentication = async () => {
+    // This must somehow return a result to display a message
+    // if the login attempt failed.
+    const result = await authenticate(passwordEntry.password);
+  };
+
   /***
    * 
    * Track changes and state of Password entry
@@ -63,10 +69,10 @@ export default ({ navigation }: AuthNavigationProps) => {
    * 
    */
   useEffect(() => {
-    // Wrap the call to async getAccount method
-    // to avoid running through the rest of the code.
     (async () => {
-      getAccount();
+      // Check if the account exists
+      await checkAccountExists();
+
       if (!account) {
         navigation.replace("Signup");
       } 
@@ -122,7 +128,7 @@ export default ({ navigation }: AuthNavigationProps) => {
               />
             </Block>
             <Button
-              onPress={() => console.log(`Password entered: ${passwordEntry.password}`)}
+              onPress={handleAuthentication}
               marginVertical={sizes.s}
               marginHorizontal={sizes.sm}
               gradient={gradients.primary}

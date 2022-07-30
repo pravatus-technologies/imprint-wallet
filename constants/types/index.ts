@@ -146,12 +146,10 @@ export interface INotification {
 
 export interface IAuthContext {
   account?: any,
-  setAccount?: any,
-  signIn?: any,
-  signOut?: any,
   register?: any,
   authenticate?: any,
-  getAccount?: any,
+  checkAccountExists?: any,
+  isAuthenticated?: boolean
 }
 
 export type WalletStackParamList = {

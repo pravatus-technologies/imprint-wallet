@@ -10,7 +10,8 @@ const APP_ID='digi1';
 export const AuthContext = React.createContext({});
 export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
     const [account, setAccount] = useState<IAccount>();
-    
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
     const register = async (acct : IAccount) => {
         const password = await JSHash(acct.password, CONSTANTS.HashAlgorithms.sha256);
         acct.password = password;
@@ -23,7 +24,6 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
         //     ? 
         //     {...options, keychainAccessible: SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY } 
         //     : options);
-
         SecureStore.setItemAsync(APP_ID, JSON.stringify(acct));
     };
 
@@ -40,8 +40,10 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
         if (!account) 
             throw new Error('Unable to Authenticate a non-existing account.');
 
-        if (hashedPassword === account.password)
+        if (hashedPassword === account.password) {
+            setIsAuthenticated(true);
             return Promise.resolve(true);
+        }
         
         return Promise.resolve(false);
     };
@@ -51,7 +53,7 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
      * Get the account from Secure Storage and set it's value.
      * 
      */
-    const getAccount = async () => {
+    const checkAccountExists = async () => {
         if (!account) {
             const acct = JSON.parse(await SecureStore.getItemAsync(APP_ID) as string);
             setAccount(acct);
@@ -62,7 +64,8 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
         account,
         register,
         authenticate,
-        getAccount,
+        checkAccountExists,
+        isAuthenticated,
     };
 
     return (
