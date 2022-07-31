@@ -152,6 +152,7 @@ export interface IAuthContext {
   isAuthenticated?: boolean,
   isAccountExists?: boolean,
   setIsAccountExists?: any,
+  setIsAuthenticated?: any,
 }
 
 export type WalletStackParamList = {

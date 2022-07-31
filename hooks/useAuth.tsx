@@ -35,7 +35,6 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
             throw new Error('Unable to Authenticate a non-existing account.');
 
         if (hashedPassword === account.password) {
-            setIsAuthenticated(true);
             return Promise.resolve(true);
         }
         
@@ -60,6 +59,7 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
         isAuthenticated,
         isAccountExists,
         setIsAccountExists,
+        setIsAuthenticated,
     };
 
     return (

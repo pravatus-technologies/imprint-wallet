@@ -1,15 +1,11 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useCallback, useEffect, useState } from "react";
 import { Platform } from "react-native";
-import * as SecureStore from 'expo-secure-store';
 import * as regex from '../../constants/regex';
 import { Block, Button, Image, Input, Text } from "../../components";
 import { AuthStackParamList } from "../../constants/types";
 import { useAuth, useData, useTheme, useTranslation } from "../../hooks";
-
-type AuthNavigationProps = NativeStackScreenProps<AuthStackParamList, "Signin">;
 
 const isAndroid = Platform.OS === "android";
 
@@ -23,7 +19,7 @@ interface IPasswordEntry {
 
 export default () => {
   // Data and Authentication
-  const { account, authenticate, checkAccountExists } = useAuth();
+  const { authenticate, setIsAuthenticated } = useAuth();
 
   // Translation Provider
   const { t } = useTranslation();
@@ -47,7 +43,8 @@ export default () => {
   const handleAuthentication = async () => {
     // This must somehow return a result to display a message
     // if the login attempt failed.
-    const result = await authenticate(passwordEntry.password);
+    let result = await authenticate(passwordEntry.password);
+    setIsAuthenticated(result);
   };
 
   /***
@@ -61,21 +58,6 @@ export default () => {
       password: regex.password.test(passwordEntry.password)
     }));
   }, [passwordEntry, setIsValid]);
-
-  /***
-   * 
-   * Checks the local storage for an existing account and if
-   * no account is found, redirect to the Signup page.
-   * 
-   */
-  // useEffect(() => {
-  //   (async () => {
-  //     // TODO: expose the app constants into a constants export
-  //     const result = await SecureStore.getItemAsync('IMPRINT5');
-  //     if (result === null)
-  //       navigation.replace("Signup");
-  //   })();
-  // }, []);
 
   return (
     <Block safe marginTop={sizes.md}>

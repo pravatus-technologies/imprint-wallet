@@ -3,10 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 import { Block, Text, Input, Checkbox, Button } from '../../components';
 import * as regex from '../../constants/regex';
-import { useData, useTheme, useTranslation } from '../../hooks';
-import { useAuth } from '../../hooks';
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { AuthStackParamList } from "../../constants/types";
+import { useAuth, useData, useTheme, useTranslation } from '../../hooks';
 
 const isAndroid = Platform.OS === 'android';
 
@@ -22,7 +19,6 @@ interface IRegistration {
     agreed: boolean
 }
 
-type AuthNavigationProps = NativeStackScreenProps<AuthStackParamList, "Signin">;
 export default () => {
     // Translations and Theme
     const {isDark} = useData();
@@ -62,8 +58,7 @@ export default () => {
 
     const handleCreateAccount = useCallback(async () => {
         // TODO: error handler here perhaps?
-        register({ password: registration.password});
-
+        await register({ password: registration.password});
         setIsAccountExists(true);
     }, [isValid, registration])
 
