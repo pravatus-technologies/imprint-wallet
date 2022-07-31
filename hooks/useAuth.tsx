@@ -5,12 +5,13 @@ import * as SecureStore from 'expo-secure-store';
 import { IAccount, IAuthContext } from '../constants/types';
 // import { Platform } from 'react-native';
 
-const APP_ID='IMPRINT4';
+const APP_ID='IMPRINT6';
 
 export const AuthContext = React.createContext({});
 export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
     const [account, setAccount] = useState<IAccount>();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAccountExists, setIsAccountExists] = useState(false);
 
     const register = async (acct : IAccount) => {
         // TODO: Error handler?
@@ -57,6 +58,8 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
         authenticate,
         checkAccountExists,
         isAuthenticated,
+        isAccountExists,
+        setIsAccountExists,
     };
 
     return (

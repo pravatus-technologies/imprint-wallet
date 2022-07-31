@@ -23,14 +23,14 @@ interface IRegistration {
 }
 
 type AuthNavigationProps = NativeStackScreenProps<AuthStackParamList, "Signin">;
-export default ({ navigation }: AuthNavigationProps) => {
+export default () => {
     // Translations and Theme
     const {isDark} = useData();
     const {t} = useTranslation();
     const {colors, gradients, sizes} = useTheme();
 
     // Auth services
-    const {register} = useAuth();
+    const {register, setIsAccountExists} = useAuth();
 
     // Tracks the state of the validation object. This makes sure
     // that whatever we enter into the form is valid.
@@ -64,8 +64,7 @@ export default ({ navigation }: AuthNavigationProps) => {
         // TODO: error handler here perhaps?
         register({ password: registration.password});
 
-        // TODO: expose Signin screenname to constants
-        navigation.replace("Signin");
+        setIsAccountExists(true);
     }, [isValid, registration])
 
     return (

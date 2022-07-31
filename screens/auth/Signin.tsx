@@ -21,7 +21,7 @@ interface IPasswordEntry {
   password: string,
 };
 
-export default ({ navigation }: AuthNavigationProps) => {
+export default () => {
   // Data and Authentication
   const { account, authenticate, checkAccountExists } = useAuth();
 
@@ -68,14 +68,14 @@ export default ({ navigation }: AuthNavigationProps) => {
    * no account is found, redirect to the Signup page.
    * 
    */
-  useEffect(() => {
-    (async () => {
-      // TODO: expose the app constants into a constants export
-      const result = await SecureStore.getItemAsync('IMPRINT4');
-      if (result === null)
-        navigation.replace("Signup");
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     // TODO: expose the app constants into a constants export
+  //     const result = await SecureStore.getItemAsync('IMPRINT5');
+  //     if (result === null)
+  //       navigation.replace("Signup");
+  //   })();
+  // }, []);
 
   return (
     <Block safe marginTop={sizes.md}>

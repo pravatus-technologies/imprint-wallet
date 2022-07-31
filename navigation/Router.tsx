@@ -2,13 +2,13 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useEffect, useState } from "react";
-import { Text } from "react-native";
 import { JSHash, CONSTANTS } from "react-native-hash";
 import AppLoading from "expo-app-loading";
 import { useAuth } from "../hooks";
 import Signup from "../screens/auth/Signup";
 import Signin from "../screens/auth/Signin";
 import Loading from "../screens/Loading";
+import { Block, Text } from "../components";
 
 const WalletScreen = () => {
   return <Text>Wallet</Text>;
@@ -64,16 +64,29 @@ const AuthStackNavigator = () => {
 
 export default () => {
   // Use the AuthContext
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, checkAccountExists } = useAuth();
+  const [accountExists, setAccountExists] = useState(false);
 
   // Set the state of the app if it's ready or not
   // useful for pre-loading and initializing state
   // for the entire app.
-  const [ isReady, setIsReady] = useState(false);
+  // const [ isReady, setIsReady] = useState(false);
 
-  return isAuthenticated ? (
-    <AppTabNavigator />
-  ) : (
-    <AuthStackNavigator />
-  );
+  (async () => {
+    let result = await checkAccountExists();
+    setAccountExists(result);
+  })();
+
+  console.log(`Router -> Account exists ${accountExists}`);
+
+  if (!accountExists) {
+    return (<Signup/>)
+  } else {
+    return isAuthenticated ? (
+        // <AppTabNavigator />
+        <AppTabNavigator/>
+      ) : (
+        <Signin/>
+      );
+  }
 };
