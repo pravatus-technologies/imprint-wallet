@@ -102,8 +102,6 @@ export default () => {
                 marginBottom={sizes.m}
                 placeholder="Enter your password"
                 onChangeText={(value) => handleChange({ password: value })}
-                success={Boolean(isValid.password)}
-   
               />
             </Block>
             <Button
@@ -111,7 +109,7 @@ export default () => {
               marginVertical={sizes.s}
               marginHorizontal={sizes.sm}
               gradient={gradients.primary}
-              disabled={Boolean(!isValid.password)}
+              disabled={false}
             >
               <Text bold white transform="uppercase">
                 {t("common.signin")}

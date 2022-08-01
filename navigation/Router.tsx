@@ -1,14 +1,10 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { useEffect, useState } from "react";
-import { JSHash, CONSTANTS } from "react-native-hash";
-import AppLoading from "expo-app-loading";
+import { useState } from "react";
 import { useAuth } from "../hooks";
 import Signup from "../screens/auth/Signup";
 import Signin from "../screens/auth/Signin";
-import Loading from "../screens/Loading";
-import { Block, Text } from "../components";
+import { Text } from "../components";
 
 const WalletScreen = () => {
   return <Text>Wallet</Text>;
@@ -41,49 +37,53 @@ const AppTabNavigator = () => {
   );
 };
 
-/***
- * Authentication Screen Stack
- *
- * Composed of the following screens
- * - Signup that takes care of creating a new account (not to be confused with a new Hedera Wallet)
- * - Signin allows the user to select from the list of wallets currently on the device
- *
- */
-const AuthStack = createStackNavigator();
-const AuthStackNavigator = () => {
-  return (
-    <AuthStack.Navigator
-      screenOptions={{ headerShown: false }}
-      initialRouteName="Signin"
-    >
-      <AuthStack.Screen name="Signup" component={Signup} />
-      <AuthStack.Screen name="Signin" component={Signin} />
-    </AuthStack.Navigator>
-  );
-};
 
 export default () => {
   // Use the AuthContext
   const { isAuthenticated, checkAccountExists } = useAuth();
   const [accountExists, setAccountExists] = useState(false);
 
-  // Set the state of the app if it's ready or not
-  // useful for pre-loading and initializing state
-  // for the entire app.
-  // const [ isReady, setIsReady] = useState(false);
-
+    /***
+    * When the application starts and renders different screens
+    * we need to check if the account exists or not to determine if
+    * we need to ask the user to create a new account.
+    * 
+    */
   (async () => {
     let result = await checkAccountExists();
     setAccountExists(result);
   })();
 
-  console.log(`Router -> Account exists ${accountExists}`);
-
+  /***
+   * NOTE
+   * 
+   * If there no account exists on the device, show the signup screen.
+   * From the documentation of Secure Storage, this might not apply to IOS
+   * devices due to the KeyChain being shared across multiple devices
+   * associated to each Apple Account? Not sure if that is the correct explanation
+   * but if we store something on the local device, it will persist upon
+   * installation on a new device.
+   * 
+   * For Android, I think this is a different story. Please make sure that 
+   * the flow is reviewed and that it is compatible to all devices. Also perform
+   * a precheck if Secure Storage is existing.
+   * 
+   */
   if (!accountExists) {
+    // Return the Signup screen if no account exists on the device
     return (<Signup/>)
+    /***
+     * else if (!wallets >= 0) {
+     *    // also consider wallet recover so maybe create a WalletCreateStack?
+     *    return (<WalletCreate/>)
+     *}
+     */
   } else {
+    /***
+     * If an Account or Wallet exists for this device show the appropriate
+     * screen depending on the state of isAuthenticated variable.
+     */
     return isAuthenticated ? (
-        // <AppTabNavigator />
         <AppTabNavigator/>
       ) : (
         <Signin/>

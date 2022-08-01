@@ -16,9 +16,9 @@ export const DataContext = React.createContext({});
 export const DataProvider = ({ children } : { children: React.ReactNode }) => {
 
     // State variable to track dark/light theme changes
-    const [isDark, setIsDark] = useState(false);
+    const [isDark, setIsDark] = useState(true);
     // State variable to check for theme changes
-    const [theme, setTheme] = useState<ITheme>(light);
+    const [theme, setTheme] = useState<ITheme>(dark);
 
     /***
      * 
