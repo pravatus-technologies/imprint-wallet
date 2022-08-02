@@ -145,7 +145,7 @@ export interface INotification {
 }
 
 export interface IAuthContext {
-  account?: any,
+  account?: IAccount,
   register?: any,
   authenticate?: any,
   checkAccountExists: () => Promise<boolean>,
@@ -153,6 +153,7 @@ export interface IAuthContext {
   isAccountExists?: boolean,
   setIsAccountExists?: any,
   setIsAuthenticated?: any,
+  setAccount?: any,
 }
 
 export type WalletStackParamList = {

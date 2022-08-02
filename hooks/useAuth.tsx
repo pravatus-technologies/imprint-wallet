@@ -27,7 +27,7 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
      * the hash against the one given by the user.
      * 
      */
-    const authenticate = async (password: string) : Promise<boolean> => {
+    const authenticate = async (password: string) : Promise<IAccount> => {
         const hashedPassword = await JSHash(password, CONSTANTS.HashAlgorithms.sha256);
         const account: IAccount = JSON.parse(await SecureStore.getItemAsync(APP_ID) as string);
 
@@ -35,10 +35,10 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
             throw new Error('Unable to Authenticate a non-existing account.');
 
         if (hashedPassword === account.password) {
-            return Promise.resolve(true);
+            return Promise.resolve(account);
         }
         
-        return Promise.resolve(false);
+        return Promise.resolve(account);
     };
 
     /***
@@ -60,6 +60,7 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
         isAccountExists,
         setIsAccountExists,
         setIsAuthenticated,
+        setAccount,
     };
 
     return (

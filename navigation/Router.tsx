@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useAuth } from "../hooks";
 import Signup from "../screens/auth/Signup";
 import Signin from "../screens/auth/Signin";
+import {Start} from "../screens/wallet/create";
 import { Text } from "../components";
 
 const WalletScreen = () => {
@@ -40,7 +41,7 @@ const AppTabNavigator = () => {
 
 export default () => {
   // Use the AuthContext
-  const { isAuthenticated, checkAccountExists } = useAuth();
+  const { account, isAuthenticated, checkAccountExists } = useAuth();
   const [accountExists, setAccountExists] = useState(false);
 
     /***
@@ -72,13 +73,12 @@ export default () => {
   if (!accountExists) {
     // Return the Signup screen if no account exists on the device
     return (<Signup/>)
-    /***
-     * else if (!wallets >= 0) {
-     *    // also consider wallet recover so maybe create a WalletCreateStack?
-     *    return (<WalletCreate/>)
-     *}
-     */
-  } else {
+    
+  } else if (isAuthenticated && account?.wallets?.length === undefined) {
+      // also consider wallet recover so maybe create a WalletCreateStack?
+      return (<Start/>)
+  }
+  else {
     /***
      * If an Account or Wallet exists for this device show the appropriate
      * screen depending on the state of isAuthenticated variable.
