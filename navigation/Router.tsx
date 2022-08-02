@@ -1,10 +1,10 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useState } from "react";
-import { useAuth } from "../hooks";
+import { useAuth, WalletProvider } from "../hooks";
 import Signup from "../screens/auth/Signup";
 import Signin from "../screens/auth/Signin";
-import {Start} from "../screens/wallet/create";
+import { WalletCreateStackNavigator } from "../screens/wallet/create";
 import { Text } from "../components";
 
 const WalletScreen = () => {
@@ -76,7 +76,9 @@ export default () => {
     
   } else if (isAuthenticated && account?.wallets?.length === undefined) {
       // also consider wallet recover so maybe create a WalletCreateStack?
-      return (<Start/>)
+      return (
+        <WalletCreateStackNavigator/>
+      )
   }
   else {
     /***

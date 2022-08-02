@@ -6,3 +6,4 @@ export {
     TranslationProvider,
     useTranslation,
   } from './useTranslation';
+export {WalletContext, WalletProvider} from './useWallet';

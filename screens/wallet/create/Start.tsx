@@ -1,4 +1,6 @@
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Block, Text, Button } from "../../../components";
+import { WalletStackParamList } from "../../../constants/types";
 import { useTheme } from "../../../hooks";
 
 /***
@@ -8,9 +10,12 @@ import { useTheme } from "../../../hooks";
  * to either Create a new wallet or Import an existing one.
  *
  */
-export const Start = () => {
+
+ type WalletCreateNavigationProps = NativeStackScreenProps<WalletStackParamList, "Start">;
+ 
+export const Start = ({navigation}: WalletCreateNavigationProps) => {
   // Themes and sizes
-  const { sizes, colors, gradients } = useTheme();
+  const { sizes, gradients } = useTheme();
 
   return (
     /* Screen Container */
@@ -37,7 +42,7 @@ export const Start = () => {
       <Block>
         <Block marginTop="8%">
           <Button
-            onPress={() => console.warn("Import Existing")}
+            onPress={() => navigation.navigate("Create")}
             marginVertical={sizes.s}
             marginHorizontal={sizes.sm}
             gradient={gradients.primary}
@@ -48,7 +53,7 @@ export const Start = () => {
             </Text>
           </Button>
           <Button
-            onPress={() => console.warn("Create New Wallet")}
+            onPress={() => navigation.navigate("Create")}
             marginVertical={sizes.s}
             marginHorizontal={sizes.sm}
             gradient={gradients.primary}

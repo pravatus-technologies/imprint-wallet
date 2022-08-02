@@ -144,6 +144,12 @@ export interface INotification {
     | 'office';
 }
 
+export interface IWalletContext {
+  recoveryPhrase?: any,
+  setRecoveryPhrase?: any,
+  generateRecoveryPhrase: () => Promise<string[]>,
+}
+
 export interface IAuthContext {
   account?: IAccount,
   register?: any,
@@ -157,10 +163,10 @@ export interface IAuthContext {
 }
 
 export type WalletStackParamList = {
-  Setup: undefined,
+  Start: undefined,
   Create: undefined,
-  Restore: undefined,
-  Home: undefined,
+  Confirm: undefined,
+  Save: undefined,
 }
 
 // export interface ICalendar extends CalendarBaseProps {
