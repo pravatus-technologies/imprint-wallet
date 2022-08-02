@@ -76,7 +76,7 @@ export default () => {
                         style={{ color: colors.primary }}/>
                     <Text 
                         h4 
-                        black>{t('app.name')}</Text>
+                        white>{t('app.name')}</Text>
                     <Text 
                         p 
                         size={sizes.sm} 

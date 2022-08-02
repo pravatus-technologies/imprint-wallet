@@ -79,7 +79,7 @@ export default () => {
               size={sizes.xxl * 2.5}
               style={{ color: colors.primary }}
             />
-            <Text h4 black>
+            <Text h4 white>
               {t("app.name")}
             </Text>
             <Text p size={sizes.sm} gray>
