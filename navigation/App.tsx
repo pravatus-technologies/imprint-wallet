@@ -12,7 +12,7 @@ export default () => {
 
     useEffect(() => {
         Platform.OS === 'android' && StatusBar.setTranslucent(true);
-        StatusBar.setBarStyle(isDark ? 'light-content' : 'dark-content');
+        StatusBar.setBarStyle('dark-content');
 
         return () => {
             StatusBar.setBarStyle('default');

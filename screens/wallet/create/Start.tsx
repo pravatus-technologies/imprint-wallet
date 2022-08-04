@@ -2,6 +2,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Block, Text, Button } from "../../../components";
 import { WalletStackParamList } from "../../../constants/types";
 import { useTheme } from "../../../hooks";
+import { useWallet } from "../../../hooks/useWallet";
 
 /***
  *
@@ -11,20 +12,26 @@ import { useTheme } from "../../../hooks";
  *
  */
 
- type WalletCreateNavigationProps = NativeStackScreenProps<WalletStackParamList, "Start">;
+ //type WalletCreateNavigationProps = NativeStackScreenProps<WalletStackParamList, "Start">;
  
-export const Start = ({navigation}: WalletCreateNavigationProps) => {
+export const Start = ({route, navigation} : any) => {
   // Themes and sizes
-  const { sizes, gradients } = useTheme();
+  const { sizes, colors, gradients } = useTheme();
+  const { setIsCreateMode } = useWallet();
+
+  const handleCreate = (mode: boolean) => {
+    setIsCreateMode(mode);
+    navigation.navigate("Create");
+  }
 
   return (
     /* Screen Container */
-    <Block safe marginHorizontal={sizes.sm}>
+    <Block safe marginTop="15%" marginHorizontal={sizes.sm}>
       {/* Page Header Container */}
       <Block
-        flex={0.15}
         marginTop={sizes.sm}
         justify="space-between"
+        flex={.2}
       >
         {/* Page Title */}
         <Text right={0.3} h5 gray>
@@ -40,9 +47,9 @@ export const Start = ({navigation}: WalletCreateNavigationProps) => {
       </Block>
       {/* Content Block */}
       <Block>
-        <Block marginTop="8%">
+        <Block marginTop="8%" justify="center">
           <Button
-            onPress={() => navigation.navigate("Create")}
+            onPress={() => handleCreate(false)}
             marginVertical={sizes.s}
             marginHorizontal={sizes.sm}
             gradient={gradients.primary}
@@ -53,7 +60,7 @@ export const Start = ({navigation}: WalletCreateNavigationProps) => {
             </Text>
           </Button>
           <Button
-            onPress={() => navigation.navigate("Create")}
+            onPress={() => handleCreate(true)}
             marginVertical={sizes.s}
             marginHorizontal={sizes.sm}
             gradient={gradients.primary}
@@ -65,6 +72,19 @@ export const Start = ({navigation}: WalletCreateNavigationProps) => {
           </Button>
         </Block>
       </Block>
+      {/* Bottom Pane for Buttons */}
+      {/* <Block
+        flex={.15}
+        justify="space-evenly"
+        row
+      >
+        <Button width="45%" color={colors.secondary} marginHorizontal={sizes.sm} marginVertical={sizes.sm}>
+          <Text>Back</Text>
+        </Button>
+        <Button width="45%" color={colors.primary} marginHorizontal={sizes.sm} marginVertical={sizes.sm}>
+          <Text>Next</Text>
+        </Button>
+      </Block> */}
     </Block>
   );
 };

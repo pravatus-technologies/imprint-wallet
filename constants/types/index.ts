@@ -147,7 +147,9 @@ export interface INotification {
 export interface IWalletContext {
   recoveryPhrase?: any,
   setRecoveryPhrase?: any,
+  isCreateMode?: any,
   generateRecoveryPhrase: () => Promise<string[]>,
+  setIsCreateMode?: any,
 }
 
 export interface IAuthContext {

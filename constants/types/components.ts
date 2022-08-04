@@ -618,6 +618,10 @@ export interface IInputProps extends TextInputProps, ISpacing {
    * @see https://reactnative.dev/docs/textinput#style
    */
   style?: TextStyle;
+  /**
+   * Renders a text value corresponding to the ordinal position of the Input field.
+   */
+  order?: string;
 }
 
 /**
