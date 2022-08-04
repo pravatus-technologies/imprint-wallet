@@ -1,5 +1,6 @@
 import { TextInput, View } from "react-native";
 import { Block, Text, Button, Input } from "../../../components";
+import Phrase from "../../../components/Phrase";
 import { useTheme, useTranslation } from "../../../hooks";
 import { useWallet } from "../../../hooks";
 
@@ -66,19 +67,22 @@ export const Create = ({ route, navigation }: any) => {
         >
           {/* Create a view with max width or set width so it will wrap around the block */}
           {
+            // words.map((word: any, index: number) => (
+            //   <View key={`phrase-${index+1}`} style={{
+            //     flexDirection: "row",
+            //     justifyContent: "center",
+            //     alignItems: "center",
+            //     width: 165,
+            //     borderColor: "gray",
+            //     borderWidth: 1,
+            //     borderRadius: 10,
+            //     marginBottom: 5
+            //   }}>
+            //     <Input  autoCapitalize="none" style={{ width: "100%"}} order={(index + 1).toString()}>{word.phrase}</Input>
+            //   </View>
+            // ))
             words.map((word: any, index: number) => (
-              <View key={`phrase-${index+1}`} style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-                width: 165,
-                borderColor: "gray",
-                borderWidth: 1,
-                borderRadius: 10,
-                marginBottom: 5
-              }}>
-                <Input  autoCapitalize="none" style={{ width: "100%"}} order={(index + 1).toString()}>{word.phrase}</Input>
-              </View>
+              <Phrase key={`phrase-${index}`} order={word.order} phrase={word.phrase} disabled={isCreateMode} />
             ))
           }
         </Block>
