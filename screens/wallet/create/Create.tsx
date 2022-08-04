@@ -66,18 +66,18 @@ export const Create = ({ route, navigation }: any) => {
         >
           {/* Create a view with max width or set width so it will wrap around the block */}
           {
-            words.map((word: {order: number, phrase: string}) => (
-              <View style={{
+            words.map((word: any, index: number) => (
+              <View key={`phrase-${index+1}`} style={{
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                width: 120,
+                width: 165,
                 borderColor: "gray",
                 borderWidth: 1,
                 borderRadius: 10,
                 marginBottom: 5
               }}>
-                <Input key={word.order} autoCapitalize="none" style={{ width: "100%"}} order={word.order.toString()}>{word.phrase}</Input>
+                <Input  autoCapitalize="none" style={{ width: "100%"}} order={(index + 1).toString()}>{word.phrase}</Input>
               </View>
             ))
           }
