@@ -144,11 +144,18 @@ export interface INotification {
     | 'office';
 }
 
+export interface IMnemonic {
+  order: number,
+  phrase: string,
+  verify: boolean,
+  validated: boolean
+}
+
 export interface IWalletContext {
-  recoveryPhrase?: any,
+  recoveryPhrase?: IMnemonic[],
   setRecoveryPhrase?: any,
   isCreateMode?: any,
-  generateRecoveryPhrase: () => Promise<string[]>,
+  generateRecoveryPhrase: () => Promise<IMnemonic[]>,
   setIsCreateMode?: any,
 }
 

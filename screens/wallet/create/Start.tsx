@@ -17,10 +17,12 @@ import { useWallet } from "../../../hooks/useWallet";
 export const Start = ({route, navigation} : any) => {
   // Themes and sizes
   const { sizes, colors, gradients } = useTheme();
-  const { setIsCreateMode } = useWallet();
+  const { setIsCreateMode, setRecoveryPhrase, generateRecoveryPhrase } = useWallet();
 
-  const handleCreate = (mode: boolean) => {
+  const handleCreate = async (mode: boolean) => {
     setIsCreateMode(mode);
+    let phrase = await generateRecoveryPhrase();
+    setRecoveryPhrase(phrase);
     navigation.navigate("Create");
   }
 

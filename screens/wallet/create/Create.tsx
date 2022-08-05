@@ -3,37 +3,14 @@ import { Block, Text, Button, Input } from "../../../components";
 import Phrase from "../../../components/Phrase";
 import { useTheme, useTranslation } from "../../../hooks";
 import { useWallet } from "../../../hooks";
+import { IMnemonic } from "../../../constants/types";
+import {useEffect} from "react";
 
 export const Create = ({ route, navigation }: any) => {
   const { t } = useTranslation();
   const { sizes, colors } = useTheme();
-  const { isCreateMode } = useWallet();
-  const words = [
-    { order: 1, phrase: "abstract"},
-    { order: 2, phrase: "engage"},
-    { order: 3, phrase: "opposite"},
-    { order: 4, phrase: "cheer"},
-    { order: 5, phrase: "wisdom"},
-    { order: 6, phrase: "scepter"},
-    { order: 7, phrase: "cinnamon"},
-    { order: 8, phrase: "business"},
-    { order: 9, phrase: "tablet"},
-    { order: 10, phrase: "luck"},
-    { order: 11, phrase: "element"},
-    { order: 12, phrase: "report"},
-    { order: 13, phrase: "compare"},
-    { order: 14, phrase: "structure"},
-    { order: 15, phrase: "modest"},
-    { order: 16, phrase: "traffic"},
-    { order: 17, phrase: "supply"},
-    { order: 18, phrase: "isolation"},
-    { order: 19, phrase: "recover"},
-    { order: 20, phrase: "space"},
-    { order: 21, phrase: "between"},
-    { order: 22, phrase: "office"},
-    { order: 23, phrase: "nature"},
-    { order: 24, phrase: "prefer"},
-  ]
+  const { recoveryPhrase, isCreateMode } = useWallet();
+
   return (
     /* Screen Container */
     <Block safe marginTop="10%" marginHorizontal={sizes.sm}>
@@ -81,10 +58,17 @@ export const Create = ({ route, navigation }: any) => {
             //     <Input  autoCapitalize="none" style={{ width: "100%"}} order={(index + 1).toString()}>{word.phrase}</Input>
             //   </View>
             // ))
-            words.map((word: any, index: number) => (
-              <Phrase key={`phrase-${index}`} order={word.order} phrase={word.phrase} disabled={isCreateMode} />
-            ))
-          }
+            //words.map((word: any, index: number) => (
+            //  <Phrase key={`phrase-${index}`} order={word.order} phrase={word.phrase} disabled={isCreateMode} />
+            //))
+             
+	    recoveryPhrase?.map((mnemonic: IMnemonic) => (
+	    	<Phrase key={`phrase-${mnemonic.order + 1}`} 
+			order={mnemonic.order + 1} 
+			phrase={mnemonic.phrase} 
+	    		disabled={isCreateMode}/>
+	    ))	
+	  }
         </Block>
       </Block>
       {/* Bottom Pane for Buttons */}
