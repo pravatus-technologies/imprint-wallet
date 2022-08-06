@@ -1,15 +1,19 @@
-import { TextInput, View } from "react-native";
-import { Block, Text, Button, Input } from "../../../components";
+import { Block, Text, Button } from "../../../components";
 import Phrase from "../../../components/Phrase";
 import { useTheme, useTranslation } from "../../../hooks";
 import { useWallet } from "../../../hooks";
 import { IMnemonic } from "../../../constants/types";
-import {useEffect} from "react";
 
-export const Create = ({ route, navigation }: any) => {
+export const Create = ({ navigation }: any) => {
   const { t } = useTranslation();
   const { sizes, colors } = useTheme();
-  const { recoveryPhrase, isCreateMode } = useWallet();
+  const { recoveryPhrase, setRecoveryPhrase, isCreateMode, generatePhraseConfirmation } = useWallet();
+
+  const handleNext = () => {
+    const confirmationArray = generatePhraseConfirmation(recoveryPhrase as IMnemonic[]);
+    setRecoveryPhrase(confirmationArray);
+    navigation.replace("Confirm");
+  }
 
   return (
     /* Screen Container */
@@ -44,29 +48,13 @@ export const Create = ({ route, navigation }: any) => {
         >
           {/* Create a view with max width or set width so it will wrap around the block */}
           {
-            // words.map((word: any, index: number) => (
-            //   <View key={`phrase-${index+1}`} style={{
-            //     flexDirection: "row",
-            //     justifyContent: "center",
-            //     alignItems: "center",
-            //     width: 165,
-            //     borderColor: "gray",
-            //     borderWidth: 1,
-            //     borderRadius: 10,
-            //     marginBottom: 5
-            //   }}>
-            //     <Input  autoCapitalize="none" style={{ width: "100%"}} order={(index + 1).toString()}>{word.phrase}</Input>
-            //   </View>
-            // ))
-            //words.map((word: any, index: number) => (
-            //  <Phrase key={`phrase-${index}`} order={word.order} phrase={word.phrase} disabled={isCreateMode} />
-            //))
-             
 	    recoveryPhrase?.map((mnemonic: IMnemonic) => (
-	    	<Phrase key={`phrase-${mnemonic.order + 1}`} 
-			order={mnemonic.order + 1} 
+	    	<Phrase key={`phrase-${mnemonic.order}`} 
+			order={mnemonic.order}
 			phrase={mnemonic.phrase} 
-	    		disabled={isCreateMode}/>
+	    		disabled={isCreateMode}
+			onBlur={()=>console.log('blur')}
+			onChangeText={(value)=>console.log(`${mnemonic.order}`)}/>
 	    ))	
 	  }
         </Block>
@@ -86,6 +74,7 @@ export const Create = ({ route, navigation }: any) => {
           color={colors.primary}
           marginHorizontal={sizes.sm}
           marginVertical={sizes.sm}
+	  onPress={handleNext}
         >
           <Text>Next</Text>
         </Button>

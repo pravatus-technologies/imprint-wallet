@@ -157,6 +157,7 @@ export interface IWalletContext {
   isCreateMode?: any,
   generateRecoveryPhrase: () => Promise<IMnemonic[]>,
   setIsCreateMode?: any,
+  generatePhraseConfirmation: (phrase: IMnemonic[]) => IMnemonic[],
 }
 
 export interface IAuthContext {
