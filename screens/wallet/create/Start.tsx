@@ -23,7 +23,7 @@ export const Start = ({route, navigation} : any) => {
     setIsCreateMode(mode);
     let phrase = await generateRecoveryPhrase();
     setRecoveryPhrase(phrase);
-    navigation.navigate("Create");
+    navigation.replace("Create");
   }
 
   return (

@@ -153,6 +153,8 @@ const Phrase = ({
         {...inputID}
         {...props}
         style={inputStyles}
+	autoCapitalize="none"
+	autoCorrect={false}
         editable={!disabled}
         placeholderTextColor={inputColor}
         onFocus={(event) => handleFocus(event, true)}

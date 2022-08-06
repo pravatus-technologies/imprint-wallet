@@ -146,9 +146,10 @@ export interface INotification {
 
 export interface IMnemonic {
   order: number,
-  phrase: string,
-  verify: boolean,
-  validated: boolean
+  phrase?: string,
+  test?: string,
+  verify?: boolean,
+  validated?: boolean
 }
 
 export interface IWalletContext {

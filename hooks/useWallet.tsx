@@ -47,6 +47,11 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
   * @returns {IMnemonic[]} Array of Mnemonic objects
   */ 
   const generatePhraseConfirmation = (phrase: IMnemonic[]): IMnemonic[] => {
+    // Don't create a set of confirmation indeces if we've already
+    // processed the recovery phrase array.
+    if (phrase.filter(e => e.verify).length > 0)
+      return phrase;
+
     // Generate an array of 6 words, and always include index 23 
     // so we can check the phrase checksum
     let indeces: number[] = [23];
