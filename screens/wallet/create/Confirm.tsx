@@ -56,6 +56,7 @@ export const Confirm = () => {
       </Block>
       {/* Content Block */}
       <Block
+        keyboard
         marginTop="2%"
         scroll
         showsVerticalScrollIndicator={true}
