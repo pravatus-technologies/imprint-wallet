@@ -8,7 +8,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
   const [recoveryPhrase, setRecoveryPhrase] = useState<IMnemonic[]>([]);
   const [isCreateMode, setIsCreateMode] = useState(false);
 
- /**
+  /**
   * This function generates a 24-word Mnemonic for Private Key recovery.
   * 
   * @returns {Promise<IMnemonic[]>} Returns an Array of IMnemonic objects
@@ -67,7 +67,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     indeces.forEach((index) => {
-      console.log(`Index ${index} Element ${JSON.stringify(phrase[index])} Phrase length: ${phrase.length}`)
       phrase[index].verify = true;
     });
 

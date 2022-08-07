@@ -1,9 +1,8 @@
-import {Text, Button} from "../../../components";
+import {Text, Block, Button} from "../../../components";
 import React, {useCallback, useState} from "react";
 import {useTheme, useWallet} from "../../../hooks"
 import {t} from "i18n-js";
 import {IMnemonic} from "../../../constants/types";
-import {Block} from "../../../components";
 import Phrase from "../../../components/Phrase";
 
 export const Confirm = () => {
@@ -11,6 +10,7 @@ export const Confirm = () => {
   const {sizes, colors} = useTheme();
 
   const [validator, setValidator] = useState<IMnemonic[]>(recoveryPhrase as IMnemonic[]);
+  const [isConfirmationPassing, setConfirmationPassing] = useState(false);
 
  /**
   * Memoized callback for the Phrase handler component.
@@ -36,6 +36,17 @@ export const Confirm = () => {
     }
   }, [validator]);
 
+  const handleNext = async () => {
+    // check the validator phrases if all passed
+    setConfirmationPassing(() => validator.filter(m => m.verify && m.validated).length === 7);
+    
+    if (!isConfirmationPassing) {
+        console.log(`Confirmation has not passed yet`);
+        return;
+    }
+    
+  };
+
   return (
     /* Screen Container */
     <Block safe marginTop="10%" marginHorizontal={sizes.sm}>
@@ -43,15 +54,13 @@ export const Confirm = () => {
       <Block marginTop={sizes.s} justify="space-between" flex={0.28}>
         {/* Page Title */}
         <Text right={0.3} h5 gray>
-          Step 2 of 4
+	  Step 3 of 4
         </Text>
         <Text right={0.3} h4>
-          {isCreateMode ? t("create.title.create") : t("create.title.recover")}
+	  {t("confirm.title")}
         </Text>
         <Text p>
-          {isCreateMode
-            ? t("create.description.create")
-            : t("create.description.recover")}
+	  {t("confirm.description")}
         </Text>
       </Block>
       {/* Content Block */}
@@ -94,13 +103,14 @@ export const Confirm = () => {
         <Button
           width="45%"
           color={colors.primary}
+	  disabled={!isConfirmationPassing}
           marginHorizontal={sizes.sm}
           marginVertical={sizes.sm}
-	  onPress={() => console.log('handle next')}
+	  onPress={handleNext}
         >
           <Text>Next</Text>
         </Button>
       </Block>
     </Block>
   );
-  }
+}

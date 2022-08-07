@@ -1,5 +1,4 @@
-import { Block, Text, Checkbox } from "../../../components";
-import { TouchableOpacity } from "react-native";
+import { Button, Block, Text, Checkbox } from "../../../components";
 import Phrase from "../../../components/Phrase";
 import { useTheme, useTranslation } from "../../../hooks";
 import { useWallet } from "../../../hooks";
@@ -82,17 +81,24 @@ export const Create = ({ navigation }: any) => {
       </Block>
       {/* Bottom Pane for Buttons */}
       <Block flex={0.15} justify="space-evenly" row>
-        <TouchableOpacity
+	<Button
+          width="45%"
+          color={colors.secondary}
+          marginHorizontal={sizes.sm}
+          marginVertical={sizes.sm}
         >
           <Text>Back</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-	  disabled={!isWrittenDown}
-          onPress={handleNext}
+        </Button>
+        <Button
+          width="45%"
+          color={colors.primary}
+          marginHorizontal={sizes.sm}
+          marginVertical={sizes.sm}
+	  onPress={handleNext}
         >
           <Text>Next</Text>
-        </TouchableOpacity>
-      </Block>
+        </Button>
+       </Block>
     </Block>
   );
 };

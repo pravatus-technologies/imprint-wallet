@@ -19,6 +19,10 @@
     }
 
   },
+  "confirm":{
+    "title": "Confirm Your Seed Phrase",
+    "description": "Confirm your seed phrase by entering the missing words below."
+  },
   "common": {
     "appDetails": "App Details",
     "appName": "App name",
