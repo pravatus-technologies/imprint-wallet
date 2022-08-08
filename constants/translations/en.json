@@ -23,6 +23,10 @@
     "title": "Confirm Your Seed Phrase",
     "description": "Confirm your seed phrase by entering the missing words below."
   },
+  "save": {
+    "title": "Save Your Wallet",
+    "description": "Enter a name for the wallet."
+  },
   "common": {
     "appDetails": "App Details",
     "appName": "App name",

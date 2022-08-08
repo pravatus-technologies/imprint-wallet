@@ -1,12 +1,42 @@
 import React, { useContext, useState } from "react";
 import { Mnemonic, PrivateKey, PublicKey } from "@hashgraph/sdk";
-import { IWalletContext, IMnemonic } from "../constants/types";
+import { IWalletContext, IMnemonic, IWallet } from "../constants/types";
 
 export const WalletContext = React.createContext({});
 export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [recoveryPhrase, setRecoveryPhrase] = useState<IMnemonic[]>([]);
   const [isCreateMode, setIsCreateMode] = useState(false);
+
+  const convertToHex = (byteArray: Uint8Array) => {
+    return Array.from(byteArray, (byte) => {
+      return ("0" + (byte & 0xff).toString(16)).slice(-2);
+    });
+  }
+
+  const generateWallet = async (nickname: string): Promise<IWallet> => {
+    try {
+      let phrase = recoveryPhrase.map((mnemonic) => mnemonic.phrase);
+      let mnemonic = await Mnemonic.fromString(phrase.join(" "));
+      let pvtKey = await PrivateKey.fromMnemonic(mnemonic);
+      let pubKey = pvtKey.publicKey;
+      let alias = pubKey.toAccountId(0, 0); //TODO: Shard, Realm
+      let wallet = {
+        name: nickname,
+	operatorId: '',
+	alias: alias.toString(),
+	keys: {
+	  index: 0,
+	  privateKey: pvtKey.toStringDer(),
+	  publicKey: pubKey.toStringDer(),
+	}
+      }
+
+      return Promise.resolve(wallet);
+    } catch (e) {
+      throw e;
+    }   
+  }
 
   /**
   * This function generates a 24-word Mnemonic for Private Key recovery.
@@ -80,6 +110,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
     generateRecoveryPhrase,
     setIsCreateMode,
     generatePhraseConfirmation,
+    generateWallet,
   };
 
   return (

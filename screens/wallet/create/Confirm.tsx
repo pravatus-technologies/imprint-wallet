@@ -5,12 +5,11 @@ import {t} from "i18n-js";
 import {IMnemonic} from "../../../constants/types";
 import Phrase from "../../../components/Phrase";
 
-export const Confirm = () => {
+export const Confirm = ({ navigation }: any) => {
   const {recoveryPhrase, isCreateMode } = useWallet();
   const {sizes, colors} = useTheme();
 
   const [validator, setValidator] = useState<IMnemonic[]>(recoveryPhrase as IMnemonic[]);
-  const [isConfirmationPassing, setConfirmationPassing] = useState(false);
 
  /**
   * Memoized callback for the Phrase handler component.
@@ -38,13 +37,11 @@ export const Confirm = () => {
 
   const handleNext = async () => {
     // check the validator phrases if all passed
-    setConfirmationPassing(() => validator.filter(m => m.verify && m.validated).length === 7);
+    let confirmedCount = validator.filter(m => m.verify && m.validated).length;
+    if (confirmedCount < 7)
+      return;
     
-    if (!isConfirmationPassing) {
-        console.log(`Confirmation has not passed yet`);
-        return;
-    }
-    
+    navigation.replace("Save");
   };
 
   return (
@@ -103,7 +100,6 @@ export const Confirm = () => {
         <Button
           width="45%"
           color={colors.primary}
-	  disabled={!isConfirmationPassing}
           marginHorizontal={sizes.sm}
           marginVertical={sizes.sm}
 	  onPress={handleNext}
