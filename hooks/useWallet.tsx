@@ -1,20 +1,40 @@
 import React, { useContext, useState } from "react";
-import { Mnemonic, PrivateKey, PublicKey } from "@hashgraph/sdk";
-import { IWalletContext, IMnemonic, IWallet } from "../constants/types";
+import { Mnemonic, PrivateKey } from "@hashgraph/sdk";
+import { IWalletContext, IMnemonic, IWallet, IAccount } from "../constants/types";
+import {useAuth} from "./useAuth";
+import * as SecureStore from 'expo-secure-store';
+import {APP_ID} from "../constants";
 
 export const WalletContext = React.createContext({});
 export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [recoveryPhrase, setRecoveryPhrase] = useState<IMnemonic[]>([]);
   const [isCreateMode, setIsCreateMode] = useState(false);
+  const { account } = useAuth();
 
-  const convertToHex = (byteArray: Uint8Array) => {
-    return Array.from(byteArray, (byte) => {
-      return ("0" + (byte & 0xff).toString(16)).slice(-2);
-    });
+  const updateAccount = async (details: any): Promise<IAccount> => {
+    // There is no interface that the details need to adhere to, it can be a complete
+    // account information or just pieces of properties that need to be updated
+    // on the stored account.
+    
+    if (!account) {
+      throw new Error('No account currently loaded. Could not save wallet information');
+    }
+    
+    let updatedAccount = { ...account, ...details };
+    console.log(`==> Updated Account ${JSON.stringify(updatedAccount)}`);
+
+    // write to secure Storage
+    await SecureStore.setItemAsync(APP_ID, JSON.stringify(updatedAccount)); // TODO: set IMPRINT6 as constant APP id;
+    return Promise.resolve(updatedAccount);
   }
 
-  const generateWallet = async (nickname: string): Promise<IWallet> => {
+ /**
+ *
+ * @param {string} nickname The name of this Wallet
+ * @returns 
+ */
+  const generateWallet = async (nickname: string): Promise<IAccount> => {
     try {
       let phrase = recoveryPhrase.map((mnemonic) => mnemonic.phrase);
       let mnemonic = await Mnemonic.fromString(phrase.join(" "));
@@ -32,7 +52,9 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
 	}
       }
 
-      return Promise.resolve(wallet);
+      account?.wallets?.push(wallet);
+
+      return Promise.resolve(account as IAccount);
     } catch (e) {
       throw e;
     }   
@@ -111,6 +133,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
     setIsCreateMode,
     generatePhraseConfirmation,
     generateWallet,
+    updateAccount,
   };
 
   return (

@@ -1,17 +1,19 @@
 import {useState} from "react";
 import {Text, Block, Button, Input} from "../../../components";
-import {useTheme, useTranslation, useWallet} from "../../../hooks";
+import {useAuth, useTheme, useTranslation, useWallet} from "../../../hooks";
 
 export const Save = () => {
   const {sizes, colors } = useTheme();
   const { t } = useTranslation();
   const [nickname, setNickName] = useState('');
-  const {generateWallet} = useWallet();
+  const {setAccount} = useAuth();
+  const {generateWallet, updateAccount} = useWallet();
 
   const handleSaveWallet = async () => {
     try {
       let wallet = await generateWallet(nickname);
-      console.log(`Wallet => ${JSON.stringify(wallet)}`);
+      let account = await updateAccount(wallet);		
+      setAccount(account);
     } catch (e) {
       console.log(`Error generating wallet: ${e}`);
     } 

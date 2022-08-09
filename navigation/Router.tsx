@@ -1,11 +1,12 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth, WalletProvider } from "../hooks";
 import Signup from "../screens/auth/Signup";
 import Signin from "../screens/auth/Signin";
 import { WalletCreateStackNavigator } from "../screens/wallet/create";
 import { Text } from "../components";
+import {IAccount} from "../constants/types";
 
 const WalletScreen = () => {
   return <Text>Wallet</Text>;
@@ -41,8 +42,8 @@ const AppTabNavigator = () => {
 
 export default () => {
   // Use the AuthContext
-  const { account, isAuthenticated, checkAccountExists } = useAuth();
-  const [accountExists, setAccountExists] = useState(false);
+  const { account, isAccountExists, isAuthenticated } = useAuth();
+  //const [accountExists, setAccountExists] = useState(false);
 
     /***
     * When the application starts and renders different screens
@@ -50,10 +51,12 @@ export default () => {
     * we need to ask the user to create a new account.
     * 
     */
-  (async () => {
-    let result = await checkAccountExists();
+  /*(async () => {
+    let result = await checkAccountExists() as IAccount;
+    console.log(`setIsAccountExists(${result !== null})`)
     setAccountExists(result);
-  })();
+    setAccount(result);
+  })();*/
 
   /***
    * NOTE
@@ -70,11 +73,17 @@ export default () => {
    * a precheck if Secure Storage is existing.
    * 
    */
-  if (!accountExists) {
+
+  useEffect(() => {
+    console.log(`==>Router Account is ${JSON.stringify(account)}`);
+    console.log(`Wallet length ${account?.wallets?.length} authenticted ${isAuthenticated}`)
+  });
+
+  if (!isAccountExists) {
     // Return the Signup screen if no account exists on the device
     return (<Signup/>)
     
-  } else if (isAuthenticated && account?.wallets?.length === undefined) {
+  } else if (isAuthenticated && account?.wallets?.length === 0) {
       // also consider wallet recover so maybe create a WalletCreateStack?
       return (
         <WalletCreateStackNavigator/>

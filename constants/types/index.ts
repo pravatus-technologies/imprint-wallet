@@ -160,13 +160,14 @@ export interface IWalletContext {
   setIsCreateMode?: any,
   generatePhraseConfirmation: (phrase: IMnemonic[]) => IMnemonic[],
   generateWallet: (nickname: string) => Promise<IWallet>,
+  updateAccount: any,
 }
 
 export interface IAuthContext {
   account?: IAccount,
   register?: any,
   authenticate?: any,
-  checkAccountExists: () => Promise<boolean>,
+  checkAccountExists: () => Promise<IAccount | null>,
   isAuthenticated?: boolean,
   isAccountExists?: boolean,
   setIsAccountExists?: any,
@@ -202,7 +203,7 @@ export interface IAccount {
   password: string;
   rootPrivateKey?: string;
   rootPublicKey?: string;
-  wallets?: IWallet[];
+  wallets: IWallet[];
 }
 
 export type AuthStackParamList = {
