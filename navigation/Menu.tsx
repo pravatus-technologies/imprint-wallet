@@ -11,7 +11,7 @@ export default () => {
     const { gradients } = useTheme();
 
     return (
-        <Block gradient={gradients[isDark ? 'dark' : 'light']}>
+        <Block gradient={gradients['dark']}>
             <AuthProvider>
                 <Router/>
             </AuthProvider>

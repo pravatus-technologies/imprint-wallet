@@ -32,6 +32,7 @@ const Input = ({
   disabled,
   label,
   icon,
+  order,
   marginBottom,
   marginTop,
   marginHorizontal,
@@ -137,6 +138,9 @@ const Input = ({
             source={assets?.[icon]}
             style={{marginLeft: sizes.inputPadding, tintColor: colors.icon}}
           />
+        )}
+        {order && (
+          <Text style={{ padding: 5}}>{order}</Text>
         )}
         <TextInput
           {...inputID}

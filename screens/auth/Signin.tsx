@@ -19,7 +19,7 @@ interface IPasswordEntry {
 
 export default () => {
   // Data and Authentication
-  const { authenticate, setIsAuthenticated } = useAuth();
+  const { authenticate, setIsAuthenticated, setAccount } = useAuth();
 
   // Translation Provider
   const { t } = useTranslation();
@@ -43,8 +43,9 @@ export default () => {
   const handleAuthentication = async () => {
     // This must somehow return a result to display a message
     // if the login attempt failed.
-    let result = await authenticate(passwordEntry.password);
-    setIsAuthenticated(result);
+    let account = await authenticate(passwordEntry.password);
+    setIsAuthenticated(account !== null);
+    setAccount(account);
   };
 
   /***

@@ -144,22 +144,42 @@ export interface INotification {
     | 'office';
 }
 
+export interface IMnemonic {
+  order: number,
+  phrase?: string,
+  test?: string,
+  verify?: boolean,
+  validated?: boolean
+}
+
+export interface IWalletContext {
+  recoveryPhrase?: IMnemonic[],
+  setRecoveryPhrase?: any,
+  isCreateMode?: any,
+  generateRecoveryPhrase: () => Promise<IMnemonic[]>,
+  setIsCreateMode?: any,
+  generatePhraseConfirmation: (phrase: IMnemonic[]) => IMnemonic[],
+  generateWallet: (nickname: string) => Promise<IWallet>,
+  updateAccount: any,
+}
+
 export interface IAuthContext {
-  account?: any,
+  account?: IAccount,
   register?: any,
   authenticate?: any,
-  checkAccountExists: () => Promise<boolean>,
+  checkAccountExists: () => Promise<IAccount | null>,
   isAuthenticated?: boolean,
   isAccountExists?: boolean,
   setIsAccountExists?: any,
   setIsAuthenticated?: any,
+  setAccount?: any,
 }
 
 export type WalletStackParamList = {
-  Setup: undefined,
+  Start: undefined,
   Create: undefined,
-  Restore: undefined,
-  Home: undefined,
+  Confirm: undefined,
+  Save: undefined,
 }
 
 // export interface ICalendar extends CalendarBaseProps {
@@ -183,7 +203,7 @@ export interface IAccount {
   password: string;
   rootPrivateKey?: string;
   rootPublicKey?: string;
-  wallets?: IWallet[];
+  wallets: IWallet[];
 }
 
 export type AuthStackParamList = {

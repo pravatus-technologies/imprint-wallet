@@ -1,11 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { JSHash, CONSTANTS } from 'react-native-hash';
 import * as SecureStore from 'expo-secure-store';
 
 import { IAccount, IAuthContext } from '../constants/types';
+import {APP_ID} from '../constants';
 // import { Platform } from 'react-native';
-
-const APP_ID='IMPRINT6';
 
 export const AuthContext = React.createContext({});
 export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
@@ -13,12 +12,44 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isAccountExists, setIsAccountExists] = useState(false);
 
+    /**
+     *
+     * Retrieve the current value for Account in Secure Storage
+     *
+     */
+    const getAccount = useCallback(async () => {
+      try {
+	const storedAccount = await SecureStore.getItemAsync(APP_ID);
+
+        if (storedAccount !== null) {
+      	  setIsAccountExists(true);
+	  setAccount(JSON.parse(storedAccount));
+        }
+      } catch (e) {
+      	throw e;
+      }
+      
+    }, [setAccount]);
+
+    /**
+     *
+     * Get initial data for Account
+     *
+     */
+    useEffect(() => {
+      getAccount();
+    }, [getAccount]);
+
     const register = async (acct : IAccount) => {
         // TODO: Error handler?
         const password = await JSHash(acct.password, CONSTANTS.HashAlgorithms.sha256);
-        acct.password = password;
-        
-        await SecureStore.setItemAsync(APP_ID, JSON.stringify(acct));
+
+	let newAccount: IAccount = {
+	  password: password,
+	  wallets: []
+	}
+        console.log(`==> New Account ${JSON.stringify(newAccount)}`);
+        await SecureStore.setItemAsync(APP_ID, JSON.stringify(newAccount));
     };
 
     /***
@@ -27,7 +58,7 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
      * the hash against the one given by the user.
      * 
      */
-    const authenticate = async (password: string) : Promise<boolean> => {
+    const authenticate = async (password: string) : Promise<IAccount> => {
         const hashedPassword = await JSHash(password, CONSTANTS.HashAlgorithms.sha256);
         const account: IAccount = JSON.parse(await SecureStore.getItemAsync(APP_ID) as string);
 
@@ -35,10 +66,10 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
             throw new Error('Unable to Authenticate a non-existing account.');
 
         if (hashedPassword === account.password) {
-            return Promise.resolve(true);
+            return Promise.resolve(account);
         }
         
-        return Promise.resolve(false);
+        return Promise.resolve(account);
     };
 
     /***
@@ -46,9 +77,12 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
      * Get the account from Secure Storage and set it's value.
      * 
      */
-    const checkAccountExists = async (): Promise<boolean> => {
+    const checkAccountExists = async (): Promise<IAccount> => {
         const result = await SecureStore.getItemAsync(APP_ID);
-        return Promise.resolve(result !== null);
+	if (result) {
+	   Promise.resolve(JSON.parse(result) as IAccount);
+	}
+        return Promise.resolve({});
     }
 
     const contextValue = {
@@ -60,6 +94,7 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
         isAccountExists,
         setIsAccountExists,
         setIsAuthenticated,
+        setAccount,
     };
 
     return (

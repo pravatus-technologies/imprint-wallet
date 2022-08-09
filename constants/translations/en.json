@@ -8,6 +8,25 @@
     "subtitle": "",
     "info": "Your password is only stored on this device for security purposes and cannot be recovered. It must contain a minimum of 12 characters and include at least 1 special symbol."
   },
+  "create": {
+    "title": {
+      "create": "Save Your Seed Phrase",
+      "recover": "Restore From Seed Phrase"
+    },
+    "description": {
+      "create": "A Seed Phrase allows you to recover your account. Write down the 24-Word Phrase below and keep it safe.",
+      "recover": "Enter your 24-Word Seed Phrase below to recover your account."
+    }
+
+  },
+  "confirm":{
+    "title": "Confirm Your Seed Phrase",
+    "description": "Confirm your seed phrase by entering the missing words below."
+  },
+  "save": {
+    "title": "Save Your Wallet",
+    "description": "Enter a name for the wallet."
+  },
   "common": {
     "appDetails": "App Details",
     "appName": "App name",
