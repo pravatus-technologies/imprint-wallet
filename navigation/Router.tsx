@@ -1,14 +1,22 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { useEffect, useState } from "react";
-import { useAuth, WalletProvider } from "../hooks";
+import { useEffect } from "react";
+import { useAuth } from "../hooks";
 import Signup from "../screens/auth/Signup";
 import Signin from "../screens/auth/Signin";
 import { WalletCreateStackNavigator } from "../screens/wallet/create";
 import { Text } from "../components";
 import {IAccount} from "../constants/types";
+import {Home} from "../screens/wallet/home/Home";
+import {WalletHomeStackNavigator} from "../screens/wallet/home/HomeNavigator";
 
 const WalletScreen = () => {
+  const {account} = useAuth();
+  
+  useEffect(() => {
+    console.log(`==> Wallet Home ${JSON.stringify(account as IAccount)}`);
+  });
+  
   return <Text>Wallet</Text>;
 };
 /***
@@ -24,7 +32,7 @@ const AppTabNavigator = () => {
     <AppTab.Navigator screenOptions={{ headerShown: false }}>
       <AppTab.Screen
         name="Home"
-        component={WalletScreen}
+        component={WalletHomeStackNavigator}
         options={{
           tabBarIcon: ({ size, color }) => (
             <MaterialCommunityIcons

@@ -1,6 +1,4 @@
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Block, Text, Button } from "../../../components";
-import { WalletStackParamList } from "../../../constants/types";
 import { useTheme } from "../../../hooks";
 import { useWallet } from "../../../hooks/useWallet";
 

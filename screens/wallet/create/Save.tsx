@@ -6,14 +6,11 @@ export const Save = () => {
   const {sizes, colors } = useTheme();
   const { t } = useTranslation();
   const [nickname, setNickName] = useState('');
-  const {setAccount} = useAuth();
-  const {generateWallet, updateAccount} = useWallet();
+  const {generateWallet} = useWallet();
 
   const handleSaveWallet = async () => {
     try {
       let wallet = await generateWallet(nickname);
-      let account = await updateAccount(wallet);		
-      setAccount(account);
     } catch (e) {
       console.log(`Error generating wallet: ${e}`);
     } 

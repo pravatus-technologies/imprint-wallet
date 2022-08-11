@@ -2,9 +2,9 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { JSHash, CONSTANTS } from 'react-native-hash';
 import * as SecureStore from 'expo-secure-store';
 
+import TestAccount  from "../constants/account";
 import { IAccount, IAuthContext } from '../constants/types';
-import {APP_ID} from '../constants';
-// import { Platform } from 'react-native';
+import {APP_ID, ENVIRONMENT} from '../constants';
 
 export const AuthContext = React.createContext({});
 export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
@@ -19,6 +19,14 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
      */
     const getAccount = useCallback(async () => {
       try {
+        if (ENVIRONMENT === "Development") {
+	  console.log(`==> [Auth] Development environment. Loading Test Account`);
+
+	  setIsAccountExists(true);
+	  setAccount(TestAccount);
+
+	  return;
+	}
 	const storedAccount = await SecureStore.getItemAsync(APP_ID);
 
         if (storedAccount !== null) {
@@ -48,7 +56,6 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
 	  password: password,
 	  wallets: []
 	}
-        console.log(`==> New Account ${JSON.stringify(newAccount)}`);
         await SecureStore.setItemAsync(APP_ID, JSON.stringify(newAccount));
     };
 
@@ -59,6 +66,10 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
      * 
      */
     const authenticate = async (password: string) : Promise<IAccount> => {
+
+        if (ENVIRONMENT == "Development")
+	  return Promise.resolve(TestAccount);
+
         const hashedPassword = await JSHash(password, CONSTANTS.HashAlgorithms.sha256);
         const account: IAccount = JSON.parse(await SecureStore.getItemAsync(APP_ID) as string);
 
@@ -72,24 +83,10 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
         return Promise.resolve(account);
     };
 
-    /***
-     * 
-     * Get the account from Secure Storage and set it's value.
-     * 
-     */
-    const checkAccountExists = async (): Promise<IAccount> => {
-        const result = await SecureStore.getItemAsync(APP_ID);
-	if (result) {
-	   Promise.resolve(JSON.parse(result) as IAccount);
-	}
-        return Promise.resolve({});
-    }
-
     const contextValue = {
         account,
         register,
         authenticate,
-        checkAccountExists,
         isAuthenticated,
         isAccountExists,
         setIsAccountExists,
