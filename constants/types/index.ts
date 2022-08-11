@@ -175,19 +175,6 @@ export interface IAuthContext {
   setAccount?: any,
 }
 
-export type WalletStackParamList = {
-  Start: undefined,
-  Create: undefined,
-  Confirm: undefined,
-  Save: undefined,
-}
-
-// export interface ICalendar extends CalendarBaseProps {
-//   dates?: any[];
-//   calendar?: {start: number; end: number};
-//   onClose?: (calendar?: {start?: number; end?: number}) => void;
-// }
-
 export interface IWallet {
   name: string;
   operatorId: string;

@@ -1,46 +1,43 @@
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { Mnemonic, PrivateKey } from "@hashgraph/sdk";
 import { IWalletContext, IMnemonic, IWallet, IAccount } from "../constants/types";
 import {useAuth} from "./useAuth";
 import * as SecureStore from 'expo-secure-store';
-import {APP_ID} from "../constants";
+import {APP_ID, REALM_NUM, SHARD_NUM} from "../constants";
 
 export const WalletContext = React.createContext({});
 export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [recoveryPhrase, setRecoveryPhrase] = useState<IMnemonic[]>([]);
   const [isCreateMode, setIsCreateMode] = useState(false);
-  const { account } = useAuth();
+  const { account, setAccount } = useAuth();
 
-  const updateAccount = async (details: any): Promise<IAccount> => {
-    // There is no interface that the details need to adhere to, it can be a complete
-    // account information or just pieces of properties that need to be updated
-    // on the stored account.
-    
-    if (!account) {
-      throw new Error('No account currently loaded. Could not save wallet information');
-    }
-    
-    let updatedAccount = { ...account, ...details };
-    console.log(`==> Updated Account ${JSON.stringify(updatedAccount)}`);
-
-    // write to secure Storage
-    await SecureStore.setItemAsync(APP_ID, JSON.stringify(updatedAccount)); // TODO: set IMPRINT6 as constant APP id;
-    return Promise.resolve(updatedAccount);
-  }
-
- /**
- *
- * @param {string} nickname The name of this Wallet
- * @returns 
- */
-  const generateWallet = async (nickname: string): Promise<IAccount> => {
+  /**
+   * 
+   * Creates a new Wallet object and appends it into the Account's wallet array.
+   *
+   * @param {string} nickname The name of this Wallet
+   * @returns 
+   */
+  const generateWallet = useCallback(async (nickname: string) => {
     try {
+      // Take only the phrase from the mnemonic data-structure
+      // Compose a single string by appending spaces to each word phrase
       let phrase = recoveryPhrase.map((mnemonic) => mnemonic.phrase);
       let mnemonic = await Mnemonic.fromString(phrase.join(" "));
+
+      // Generate a new Private Key from the seed phrase
+      // and retrieve the Public Key as well
       let pvtKey = await PrivateKey.fromMnemonic(mnemonic);
       let pubKey = pvtKey.publicKey;
-      let alias = pubKey.toAccountId(0, 0); //TODO: Shard, Realm
+
+      // An account will be created locally with an alias. This
+      // new account will not be registered on the Network until
+      // an HBAR is transfered to the account.
+      let alias = pubKey.toAccountId(SHARD_NUM, REALM_NUM); 
+      
+      // Considering a factory for Wallet generation but for now,
+      // only 1 Account can be associated with the wallet.
       let wallet = {
         name: nickname,
 	operatorId: '',
@@ -52,13 +49,16 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
 	}
       }
 
+      // Push the created wallet into the Wallet array for the Account
+      // ande save it in Secure Storage
       account?.wallets?.push(wallet);
+      await SecureStore.setItemAsync(APP_ID, JSON.stringify(account as IAccount));
 
-      return Promise.resolve(account as IAccount);
+      setAccount(account);
     } catch (e) {
       throw e;
     }   
-  }
+  }, [setAccount]);
 
   /**
   * This function generates a 24-word Mnemonic for Private Key recovery.
