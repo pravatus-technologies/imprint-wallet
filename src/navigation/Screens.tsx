@@ -23,6 +23,7 @@ import {
 } from '../screens';
 
 import {useScreenOptions, useTranslation} from '../hooks';
+import WalletCreateRouter from '../screens/wallet/create/WalletCreateRouter';
 
 const Stack = createStackNavigator();
 
@@ -34,7 +35,7 @@ export default () => {
     <Stack.Navigator screenOptions={screenOptions.stack}>
       <Stack.Screen
         name="Home"
-        component={Home}
+        component={WalletCreateRouter}
         options={{title: t('navigation.home')}}
       />
 

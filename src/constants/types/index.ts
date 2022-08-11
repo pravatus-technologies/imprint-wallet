@@ -177,3 +177,22 @@ export interface IAuthContext {
   setIsAuthenticated?: any,
   setAccount?: any,
 }
+
+export interface IMnemonic {
+  order: number,
+  phrase?: string,
+  test?: string,
+  verify?: boolean,
+  validated?: boolean
+}
+
+export interface IWalletContext {
+  recoveryPhrase?: IMnemonic[],
+  setRecoveryPhrase?: any,
+  isCreateMode?: any,
+  generateRecoveryPhrase: () => Promise<IMnemonic[]>,
+  setIsCreateMode?: any,
+  generatePhraseConfirmation: (phrase: IMnemonic[]) => IMnemonic[],
+  generateWallet: (nickname: string) => Promise<IWallet>,
+  updateAccount: any,
+}

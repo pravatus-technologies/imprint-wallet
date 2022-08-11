@@ -7,3 +7,4 @@ export {
   useTranslation,
 } from './useTranslation';
 export {useAuth} from './useAuth';
+export {useWallet, WalletContext, WalletProvider} from './useWallet';
