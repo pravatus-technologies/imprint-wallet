@@ -1,15 +1,16 @@
 {
   "expo": {
-    "name": "wallet",
-    "slug": "wallet",
+    "name": "rn-soft-ui-kit",
+    "slug": "rn-soft-ui-kit",
+    "description": "React Native - Soft UI Kit",
+    "primaryColor": "#CB0C9F",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "resizeMode": "cover",
+      "backgroundColor": "#CB0C9F"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -23,7 +24,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#CB0C9F"
       }
     },
     "web": {
