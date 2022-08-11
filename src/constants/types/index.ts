@@ -147,3 +147,33 @@ export interface ICalendar extends CalendarBaseProps {
   calendar?: {start: number; end: number};
   onClose?: (calendar?: {start?: number; end?: number}) => void;
 }
+
+export interface IWallet {
+  name: string;
+  operatorId: string;
+  alias?: string;
+  keys: {
+    index: number;
+    privateKey: string;
+    publicKey: string;
+  }
+}
+
+export interface IAccount {
+  password: string;
+  rootPrivateKey?: string;
+  rootPublicKey?: string;
+  wallets: IWallet[];
+}
+
+export interface IAuthContext {
+  account?: IAccount,
+  register?: any,
+  authenticate?: any,
+  checkAccountExists: () => Promise<IAccount | null>,
+  isAuthenticated?: boolean,
+  isAccountExists?: boolean,
+  setIsAccountExists?: any,
+  setIsAuthenticated?: any,
+  setAccount?: any,
+}

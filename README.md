@@ -1,6 +1,6 @@
 # Introduction
 
-Soft UI Pro React Native is a premium mobile UI template built with Google's React-Native allowing you to create powerful and beautiful mobile applications. 
+Imprint Pro React Native is a premium mobile UI template built with Google's React-Native allowing you to create powerful and beautiful mobile applications. 
 
 Using the mobile application is very simple but it does require you to understand basic React functions and React Native also to work with React Native, you will need to have an understanding of JavaScript fundamentals.  
 
@@ -101,7 +101,7 @@ This folder contains all constants we're using throughout our React-Native cross
 
 #### Screens
 
-Contains all screens created for Soft UI Pro React-Native. 
+Contains all screens created for Imprint Pro React-Native. 
 
 #### Components
 

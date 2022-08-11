@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "rn-soft-ui-kit",
-    "slug": "rn-soft-ui-kit",
-    "description": "React Native - Soft UI Kit",
+    "name": "imprint-did",
+    "slug": "imprint-did",
+    "description": "Imprint Secure Digital Identity",
     "primaryColor": "#CB0C9F",
     "version": "1.0.0",
     "orientation": "portrait",

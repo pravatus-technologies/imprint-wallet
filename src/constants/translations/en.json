@@ -31,6 +31,7 @@
     "emailPlaceholder": "Enter your email address",
     "password": "Password",
     "passwordPlaceholder": "Enter a password",
+    "confirmPasswordPlaceholder": "Confirm Password",
     "agree": "I agree with the ",
     "terms": "Terms and Conditions",
     "signup": "Sign Up",
@@ -49,9 +50,10 @@
     }
   },
   "app": {
-    "name": "Soft UI",
-    "fullname": "Soft UI Kit",
-    "native": "React Native",
+    "name": "Imprint",
+    "fullname": "Imprint Digital Identity",
+    "tagline": "Secure Digital Identity",
+    "native": "Digital Identity",
     "link": "creative-tim.com"
   },
   "darkMode": "Dark Mode",
@@ -66,10 +68,10 @@
     "extra": "Extra - Automotive"
   },
   "navigation": {
-    "home": "Soft UI",
+    "home": "Imprint",
     "components": "Components",
-    "articles": "Soft UI",
-    "rentals": "Soft UI",
+    "articles": "Imprint",
+    "rentals": "Imprint",
     "rental": "Best Deal",
     "booking": "Booking",
     "chat": "Chat",
@@ -89,7 +91,7 @@
     "documentation": "Documentation"
   },
   "home": {
-    "title": "Soft UI",
+    "title": "Imprint",
     "following": "Following",
     "trending": "Trending"
   },
@@ -108,7 +110,8 @@
   },
   "register": {
     "title": "Welcome",
-    "subtitle": "Register with"
+    "subtitle": "Register with",
+    "info": "Your password is only stored on this device for security purposes and cannot be recovered. It must contain a minimum of 12 characters and include at least 1 special symbol."
   },
   "login": {
     "title": "Welcome",
@@ -147,7 +150,7 @@
     }
   },
   "rentals": {
-    "title": "Soft UI",
+    "title": "Imprint",
     "flight": "Flight",
     "hotel": "Hotel",
     "train": "Train",

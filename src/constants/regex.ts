@@ -14,7 +14,8 @@ export const email: RegExp = /^[^\s@]+@[^\s@]+\.([^\s@]{2,})+$/;
  * (?=.*\d): at least one digit
  * (?=.*[a-z]): at least one lower case
  * (?=.*[A-Z]): at least one uppercase case
- * [0-9a-zA-Z]{6,}: at least 6 from the mentioned characters
+ * (?=.*[$*!@=&~#%^*()-_+[\]{}|;:'",.\/<>?]): at least one of the symbols
+ * [0-9a-zA-Z!@#$&()\\-`.+,/\"]{6,}: at least 12 from the mentioned characters
  */
 export const password: RegExp =
-  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/;
+  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$&()\\-`.+,/\"\[\]\=])[0-9a-zA-Z$*!@=&~#%^*()-_+[\]{}|;:'",.\/<>?]{12,}$/;

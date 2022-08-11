@@ -81,6 +81,7 @@ export const ASSETS: ThemeAssets = {
   logo: require('../assets/images/logo.png'),
   header: require('../assets/images/header.png'),
   background: require('../assets/images/background.png'),
+  loginBackground: require('../assets/images/login.jpg'),
 
   // cards
   card1: require('../assets/images/card1.png'),

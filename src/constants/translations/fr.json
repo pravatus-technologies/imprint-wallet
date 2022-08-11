@@ -90,8 +90,8 @@
     "today": "Aujourd'hui"
   },
   "app": {
-    "name": "Soft UI",
-    "fullname": "Soft UI Kit",
+    "name": "Imprint",
+    "fullname": "Imprint Kit",
     "native": "React Native",
     "link": "creative-tim.com"
   },
@@ -107,10 +107,10 @@
     "extra": "Extra - Automobile"
   },
   "navigation": {
-    "home": "Soft UI",
+    "home": "Imprint",
     "components": "Composants",
-    "articles": "Soft UI",
-    "rentals": "Soft UI",
+    "articles": "Imprint",
+    "rentals": "Imprint",
     "rental": "Best Deal",
     "booking": "Réservation",
     "chat": "Conversation",
@@ -130,7 +130,7 @@
     "documentation": "Documentation"
   },
   "home": {
-    "title": "Soft UI",
+    "title": "Imprint",
     "following": "Suivant",
     "trending": "Tendance"
   },
@@ -188,7 +188,7 @@
     }
   },
   "rentals": {
-    "title": "Soft UI",
+    "title": "Imprint",
     "flight": "Vol",
     "hotel": "Hôtel",
     "train": "Train",

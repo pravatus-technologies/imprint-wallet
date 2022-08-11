@@ -254,6 +254,7 @@ export interface ThemeAssets {
   logo: ImageSourcePropType;
   header: ImageSourcePropType;
   background: ImageSourcePropType;
+  loginBackground: ImageSourcePropType;
 
   card1: ImageSourcePropType;
   card2: ImageSourcePropType;
