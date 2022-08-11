@@ -520,6 +520,10 @@ export interface IImageProps extends ImageProps, ISpacing {
   style?: StyleProp<ImageStyle>;
   /** Renders the ImageBackground content */
   children?: React.ReactNode;
+  /** Add Height property */
+  height?: number;
+  /** Add Width property */
+  width?: number;
 }
 
 /**

@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/core';
 
 import {useData, useTheme, useTranslation} from '../hooks/';
 import * as regex from '../constants/regex';
-import {Block, Button, Input, Image, Text, Checkbox} from '../components/';
+import {Block, Button, Input, Image, Text, Checkbox} from '../components';
 
 const isAndroid = Platform.OS === 'android';
 
@@ -36,7 +36,7 @@ const Login = () => {
   const {assets, colors, gradients, sizes} = useTheme();
 
   const handleChange = useCallback(
-    (value) => {
+    (value: any) => {
       setLoginData((state) => ({...state, ...value}));
     },
     [setLoginData],
