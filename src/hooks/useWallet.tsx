@@ -31,7 +31,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
    * @returns
    */
   const generateWallet = useCallback(
-    async (nickname: string) => {
+    async (nickname: string) : Promise<IWallet> => {
       try {
         // Take only the phrase from the mnemonic data-structure
         // Compose a single string by appending spaces to each word phrase
@@ -61,20 +61,28 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
           },
         };
 
+        // !!!DO NOT!!! update the account here or save to async storage.
+        // Just return the generated wallet.
+
         // Push the created wallet into the Wallet array for the Account
         // ande save it in Secure Storage
-        account?.wallets?.push(wallet);
-        await SecureStore.setItemAsync(
-          APP_ID,
-          JSON.stringify(account as IAccount)
-        );
+        // account?.wallets?.push(wallet);
+        // await SecureStore.setItemAsync(
+        //  APP_ID,
+        //  JSON.stringify(account as IAccount)
+        // );
 
-        setAccount(account);
+        // Don't do this here!!!!!
+        // setAccount(account);
+
+        return Promise.resolve(wallet);
       } catch (e) {
         throw e;
       }
     },
-    [account, setAccount]
+
+    // TODO -> Dependencies on recoveryPhrase not account
+    [recoveryPhrase]
   );
 
   /**
