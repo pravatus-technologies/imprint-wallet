@@ -8,7 +8,14 @@ import {
 } from "../constants/types";
 import { useAuth } from "./useAuth";
 import * as SecureStore from "expo-secure-store";
-import { APP_ID, REALM_NUM, SHARD_NUM } from "../constants";
+import {
+  APP_ID,
+  LAST_PHRASE_INDEX,
+  MNEMONIC_PHRASE_LENGTH,
+  NUM_WORDS_TO_CONFIRM,
+  REALM_NUM,
+  SHARD_NUM,
+} from "../constants";
 
 export const WalletContext = React.createContext({});
 export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
@@ -67,7 +74,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
         throw e;
       }
     },
-    [setAccount]
+    [account, setAccount]
   );
 
   /**
@@ -75,7 +82,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
    *
    * @returns {Promise<IMnemonic[]>} Returns an Array of IMnemonic objects
    */
-  const generateRecoveryPhrase = async (): Promise<IMnemonic[]> => {
+  const generateRecoveryPhrase = useCallback(async (): Promise<IMnemonic[]> => {
     // In use case where the user triggers another call to this function
     // accidentally or not, we do not want to generate a new one. Just
     // return the previous generated recovery phrase.
@@ -99,37 +106,40 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
     } catch (e) {
       throw e;
     }
-  };
+  }, [recoveryPhrase]);
 
   /**
    * Randomly selects six (6) phrases + the last word to verify.
    *
    * @returns {IMnemonic[]} Array of Mnemonic objects
    */
-  const generatePhraseConfirmation = (phrase: IMnemonic[]): IMnemonic[] => {
-    // Don't create a set of confirmation indeces if we've already
-    // processed the recovery phrase array.
-    if (phrase.filter((e) => e.verify).length > 0) return phrase;
+  const generatePhraseConfirmation = useCallback(
+    (phrase: IMnemonic[]): IMnemonic[] => {
+      // Don't create a set of confirmation indeces if we've already
+      // processed the recovery phrase array.
+      if (phrase.filter((e) => e.verify).length > 0) return phrase;
 
-    // Generate an array of 6 words, and always include index 23
-    // so we can check the phrase checksum
-    let indeces: number[] = [23];
-    for (let i = 0; i < 6; i++) {
-      while (true) {
-        let index = Math.floor(Math.random() * 24); // TODO: Magic number
-        if (indeces.includes(index)) continue;
+      // Generate an array of words, and always include the last phrase
+      // so we can check the phrase checksum
+      let indeces: number[] = [LAST_PHRASE_INDEX];
+      for (let i = 0; i < NUM_WORDS_TO_CONFIRM; i++) {
+        while (true) {
+          let index = Math.floor(Math.random() * MNEMONIC_PHRASE_LENGTH); // TODO: Magic number
+          if (indeces.includes(index)) continue;
 
-        indeces.push(index);
-        break;
+          indeces.push(index);
+          break;
+        }
       }
-    }
 
-    indeces.forEach((index) => {
-      phrase[index].verify = true;
-    });
+      indeces.forEach((index) => {
+        phrase[index].verify = true;
+      });
 
-    return phrase;
-  };
+      return phrase;
+    },
+    []
+  );
 
   const contextValues = {
     recoveryPhrase,

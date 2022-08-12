@@ -83,7 +83,7 @@ const Register = () => {
         <Block
           keyboard
           behavior={!isAndroid ? "padding" : "height"}
-          marginTop={-(sizes.height * 0.2 - sizes.l)}
+          marginTop={-(sizes.height * 0.2)}
         >
           <Block
             flex={0}

@@ -18,7 +18,7 @@ export const Save = () => {
 
   return (
     /* Screen Container */
-    <Block safe marginTop="10%" marginHorizontal={sizes.sm}>
+    <Block safe marginHorizontal={sizes.sm}>
       {/* Page Header Container */}
       <Block marginTop={sizes.s} justify="space-between" flex={0.28}>
         {/* Page Title */}
