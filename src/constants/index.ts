@@ -5,6 +5,13 @@ export {THEME as dark} from './dark';
 export const APP_ID='IMPRINT_IDENT';
 
 /**
+ * 
+ * Indicates no existing account
+ * 
+ */
+export const NO_ACTIVE_WALLET=0;
+
+/**
  *
  * Hedera Shard and Realm numbers
  *

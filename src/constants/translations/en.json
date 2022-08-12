@@ -128,6 +128,16 @@
         "step": "Step 2 of 4",
         "title": "Create Wallet",
         "description": "A Seed Phrase allows you to recover your account. Write down the 24-Word Phrase below and keep it safe."
+      },
+      "confirm": {
+        "step": "Step 3 of 4",
+        "title": "Confirm Your Seed Phrase",
+        "description": "Enter your 24-Word Seed Phrase below to recover your account."
+      },
+      "save": {
+        "step": "Step 4 of 4",
+        "title": "Save Your Wallet",
+        "description": "Enter a name for the wallet."
       }
     },
     "recover": {
