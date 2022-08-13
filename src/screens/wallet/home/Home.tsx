@@ -131,10 +131,10 @@ export default () => {
         justify="center"
       >
         <Button gradient={gradients.primary}
-            onPress={ async () => await SecureStorage.deleteItemAsync(APP_ID)}
+          onPress={() => console.log('handle transfer')}
         >
           <Text p white transform="uppercase">
-            Delete Account
+            Send hbars
           </Text>
         </Button>
       </Block>

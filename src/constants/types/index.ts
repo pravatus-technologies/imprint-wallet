@@ -193,6 +193,6 @@ export interface IWalletContext {
   generateRecoveryPhrase: () => Promise<IMnemonic[]>,
   setIsCreateMode?: any,
   generatePhraseConfirmation: (phrase: IMnemonic[]) => IMnemonic[],
-  generateWallet: (nickname: string) => Promise<IWallet>,
+  saveNewAccount: (account: IAccount, nickname: string) => void,
   updateAccount: any,
 }

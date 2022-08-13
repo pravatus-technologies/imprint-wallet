@@ -33,11 +33,7 @@ const WalletCreateStackNavigator = () => {
 };
 
 export default () => {
-  const { account, isAccountExists, isAuthenticated } = useAuth();
-
-  useEffect(() => {
-    console.log(`==> WalletCreateRouter - Account ${JSON.stringify(account)}`);
-  });
+  const { account, isAuthenticated } = useAuth();
 
   if (isAuthenticated && account?.wallets?.length === NO_ACTIVE_WALLET) {
     return (<WalletCreateStackNavigator/>);

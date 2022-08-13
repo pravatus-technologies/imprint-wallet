@@ -2,31 +2,18 @@ import { useState } from "react";
 import { Text, Block, Button, Input } from "../../../components";
 import { IAccount } from "../../../constants/types";
 import { useAuth, useTheme, useTranslation, useWallet } from "../../../hooks";
-import * as SecureStorage from 'expo-secure-store';
-import { APP_ID } from "../../../constants";
 
 export const Save = () => {
   const { sizes, colors } = useTheme();
   const { t } = useTranslation();
   const [nickname, setNickName] = useState("");
-  const { generateWallet } = useWallet();
-  const { account, setAccount } = useAuth();
+  const {saveNewAccount} = useWallet();
+  const { account } = useAuth();
 
-  //const [updatedAccount, setUpdatedAccount] = useState<IAccount>(account as IAccount);
 
   const handleSaveWallet = async () => {
     try {
-      let wallet = await generateWallet(nickname);
-      let updatedAccount = { ...account } as IAccount;
-      // create a new account object based from the old account
-      // set the wallet and setAccount(newAccount) to trigger change
-      // might be checking through reference instead of value.
-      updatedAccount.wallets.push(wallet);
-      setAccount(updatedAccount);
-
-      // Remove write to disk from here
-      await SecureStorage.setItemAsync(APP_ID, JSON.stringify(updatedAccount));
-
+      saveNewAccount(account as IAccount, nickname);
     } catch (e) {
       console.log(`Error generating wallet: ${e}`);
     }
