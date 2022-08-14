@@ -17,12 +17,12 @@ export const NUM_WORDS_TO_CONFIRM=6;
 /**
  * Index of the last phrase in a 24-word phrase
  */
-export const LAST_PHRASE_INDEX=23;
+export const LAST_PHRASE_INDEX=11; 
 
 /**
  * The number of word phrases in a mnemonic
  */
-export const MNEMONIC_PHRASE_LENGTH=24;
+export const MNEMONIC_PHRASE_LENGTH=12;
 
 /**
  * Hedera Shard and Realm numbers

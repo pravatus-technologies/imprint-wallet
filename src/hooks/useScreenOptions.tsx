@@ -91,7 +91,7 @@ export default () => {
       ...menu,
       headerTitle: () => (
         <Text p white>
-          {t('navigation.components')}
+          Wallet 
         </Text>
       ),
       headerRight: () => null,

@@ -8,7 +8,6 @@ import {
   Chat,
   Components,
   Extras,
-  Home,
   Notifications,
   Privacy,
   Profile,
@@ -22,8 +21,11 @@ import {
   NotificationsSettings,
 } from '../screens';
 
+import Home from '../screens/wallet/home/Home';
+import Send from '../screens/wallet/home/Send';
+
 import {useScreenOptions, useTranslation} from '../hooks';
-import WalletCreateRouter from '../screens/wallet/create/WalletCreateRouter';
+import WalletCreateRouter from './WalletCreateRouter';
 
 const Stack = createStackNavigator();
 
@@ -35,8 +37,14 @@ export default () => {
     <Stack.Navigator screenOptions={screenOptions.stack}>
       <Stack.Screen
         name="Home"
-        component={WalletCreateRouter}
-        options={{title: t('navigation.home')}}
+        component={Home}
+        options={{title: t('navigation.home'), ...screenOptions.components}}
+      />
+
+      <Stack.Screen
+        name="Send"
+        component={Send}
+        options={{ title: 'Send', headerShown: false }}
       />
 
       <Stack.Screen

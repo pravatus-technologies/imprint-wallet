@@ -77,7 +77,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
   );
 
   /**
-   * This function generates a 24-word Mnemonic for Private Key recovery.
+   * This function generates a Mnemonic for Private Key recovery.
    *
    * @returns {Promise<IMnemonic[]>} Returns an Array of IMnemonic objects
    */
@@ -88,7 +88,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
     if (recoveryPhrase.length > 0) return Promise.resolve(recoveryPhrase);
 
     try {
-      let mnemonic = await Mnemonic.generate();
+      let mnemonic = await Mnemonic.generate12();
       let phraseArray: IMnemonic[] = mnemonic
         .toString()
         .split(" ")

@@ -14,6 +14,9 @@ import {Block, Text, Switch, Button, Image} from '../components';
 import {useAuth, useData, useTheme, useTranslation} from '../hooks';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Login, Register } from '../screens';
+import { IAccount } from '../constants/types';
+import { NO_ACTIVE_WALLET } from '../constants';
+import WalletCreateStackNavigator from './WalletCreateRouter';
 
 const Drawer = createDrawerNavigator();
 
@@ -233,9 +236,15 @@ export const DrawerNavigator = () => {
 export default () => {
   const { account, isAccountExists, isAuthenticated } = useAuth();
 
+  // The condition to create a wallet must be shown here
   if (!isAccountExists) {
+    // If there is no account, Register
     return (<Register/>);
+  } else if (isAccountExists && account?.wallets?.length === NO_ACTIVE_WALLET) {
+    // If there is an account and no active wallet, create a wallet
+    return (<WalletCreateStackNavigator/>)
   } else {
+    // else, there is a wallet and the account exists, but we need to login
     return isAuthenticated ? (<DrawerNavigator/>) : (<Login/>);
   }
 }
