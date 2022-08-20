@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useNavigation } from '@react-navigation/core';
 import QRCode from "react-native-qrcode-svg";
 import { Button, Block, Image, Text } from "../../../components";
 import { useAuth, useTheme } from "../../../hooks";
@@ -8,6 +9,7 @@ import { APP_ID } from "../../../constants";
 export default () => {
   const { sizes, assets, gradients } = useTheme();
   const { account } = useAuth();
+  const navigation = useNavigation();
 
   return (
     <Block
@@ -131,10 +133,10 @@ export default () => {
         justify="center"
       >
         <Button gradient={gradients.primary}
-            onPress={ async () => await SecureStorage.deleteItemAsync(APP_ID)}
+          onPress={() => navigation.navigate('Send')}
         >
           <Text p white transform="uppercase">
-            Delete Account
+            Send hbars
           </Text>
         </Button>
       </Block>

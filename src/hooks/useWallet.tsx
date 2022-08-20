@@ -3,7 +3,6 @@ import { Mnemonic, PrivateKey } from "@hashgraph/sdk";
 import {
   IWalletContext,
   IMnemonic,
-  IWallet,
   IAccount,
 } from "../constants/types";
 import { useAuth } from "./useAuth";
@@ -30,8 +29,8 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
    * @param {string} nickname The name of this Wallet
    * @returns
    */
-  const generateWallet = useCallback(
-    async (nickname: string) : Promise<IWallet> => {
+  const saveNewAccount = useCallback(
+    async (account: IAccount, nickname: string) => {
       try {
         // Take only the phrase from the mnemonic data-structure
         // Compose a single string by appending spaces to each word phrase
@@ -61,32 +60,24 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
           },
         };
 
-        // !!!DO NOT!!! update the account here or save to async storage.
-        // Just return the generated wallet.
+        // Create new wallet object from old account state
+        // to force change detection from Auth context
+        let newAccount: IAccount = { ...account };
+        newAccount.wallets.push(wallet);
+        setAccount(newAccount);
 
-        // Push the created wallet into the Wallet array for the Account
-        // ande save it in Secure Storage
-        // account?.wallets?.push(wallet);
-        // await SecureStore.setItemAsync(
-        //  APP_ID,
-        //  JSON.stringify(account as IAccount)
-        // );
-
-        // Don't do this here!!!!!
-        // setAccount(account);
-
-        return Promise.resolve(wallet);
+        // Save to secure storage
+        await SecureStore.setItemAsync(APP_ID, JSON.stringify(newAccount));
       } catch (e) {
         throw e;
       }
     },
 
-    // TODO -> Dependencies on recoveryPhrase not account
     [recoveryPhrase]
   );
 
   /**
-   * This function generates a 24-word Mnemonic for Private Key recovery.
+   * This function generates a Mnemonic for Private Key recovery.
    *
    * @returns {Promise<IMnemonic[]>} Returns an Array of IMnemonic objects
    */
@@ -97,7 +88,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
     if (recoveryPhrase.length > 0) return Promise.resolve(recoveryPhrase);
 
     try {
-      let mnemonic = await Mnemonic.generate();
+      let mnemonic = await Mnemonic.generate12();
       let phraseArray: IMnemonic[] = mnemonic
         .toString()
         .split(" ")
@@ -156,7 +147,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
     generateRecoveryPhrase,
     setIsCreateMode,
     generatePhraseConfirmation,
-    generateWallet,
+    saveNewAccount,
   };
 
   return (

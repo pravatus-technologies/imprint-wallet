@@ -1,12 +1,9 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import { useAuth, WalletProvider } from "../../../hooks";
-import { Start } from "./Start";
-import { Create } from "./Create";
-import { NO_ACTIVE_WALLET } from "../../../constants";
-import { Confirm } from "./Confirm";
-import { Save } from "./Save";
-import { useEffect } from "react";
-import WalletHomeRouter from '../home/WalletHomeRouter';
+import { useAuth, WalletProvider } from "../hooks";
+import { Start } from "../screens/wallet/create/Start";
+import { Create } from "../screens/wallet/create/Create";
+import { Confirm } from "../screens/wallet/create/Confirm";
+import { Save } from "../screens/wallet/create/Save";
 
 const WalletCreateStack = createStackNavigator();
 
@@ -32,16 +29,5 @@ const WalletCreateStackNavigator = () => {
   );
 };
 
-export default () => {
-  const { account, isAccountExists, isAuthenticated } = useAuth();
+export default WalletCreateStackNavigator;
 
-  useEffect(() => {
-    console.log(`==> WalletCreateRouter - Account ${JSON.stringify(account)}`);
-  });
-
-  if (isAuthenticated && account?.wallets?.length === NO_ACTIVE_WALLET) {
-    return (<WalletCreateStackNavigator/>);
-  } else {
-    return (<WalletHomeRouter/>);
-  }
-};
