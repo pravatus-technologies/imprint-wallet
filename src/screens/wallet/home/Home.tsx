@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigation } from '@react-navigation/core';
 import QRCode from "react-native-qrcode-svg";
 import { Button, Block, Image, Text } from "../../../components";
+import GradientHedera from "../../../components/GradientHedera";
 import { useAuth, useTheme } from "../../../hooks";
 import * as SecureStorage from 'expo-secure-store';
 import { APP_ID } from "../../../constants";
@@ -27,65 +28,55 @@ export default () => {
           gradient={gradients.dark}
           shadow={true}
         >
-          <Image source={assets.loginBackground} resizeMode="cover" />
-          {/* Card Issuer with Logo */}
-          <Block
-            row
-            align="center"
-            position="absolute"
-            width="100%"
-            padding={sizes.s}
-          >
-            <Image
-              source={assets.hbar}
-              height={sizes.width * 0.07}
-              width={sizes.width * 0.07}
-            />
-            <Text
-              size={sizes.sm}
-              white
-              transform="uppercase"
-              marginLeft={sizes.s}
+          <GradientHedera>
+            {/* Card Issuer with Logo */}
+            <Block
+              row
+              width="100%"
+              padding={sizes.s}
             >
-              Hedera Hashgraph
-            </Text>
-          </Block>
-          <Block
-            align="center"
-            position="absolute"
-            top={60}
-            bottom={0}
-            right={0}
-            left={0}
-            margin="auto"
-          >
-            <QRCode value={account?.wallets[0].alias?.toString()} size={75} />
-            <Text size={sizes.s} white transform="uppercase">
-              HBAR
-            </Text>
-          </Block>
-          {/* Card Name with Account Number */}
-          <Block
-            row
-            align="center"
-            justify="space-between"
-            position="absolute"
-            bottom={0}
-            width="100%"
-            padding={sizes.s}
-          >
-            <Text p white transform="uppercase" marginLeft={sizes.s}>
-              {account?.wallets[0]?.name}
-            </Text>
-            <Text
-              size={sizes.sm}
-              white
-              transform="uppercase"
-              marginRight={sizes.s}
+              <Image
+                source={assets.hbar}
+                height={sizes.width * 0.07}
+                width={sizes.width * 0.07}
+              />
+              <Text
+                size={sizes.sm}
+                white
+                transform="uppercase"
+                marginLeft={sizes.s}
+              >
+                Hedera Hashgraph
+              </Text>
+            </Block>
+            <Block
+              align="center"
+              justify="center"
             >
-              {account?.wallets[0]?.alias?.substring(0, 25)}
-            </Text>
-          </Block>
+              <QRCode value={account?.wallets[0].alias?.toString()} size={80} />
+            </Block>
+            {/* Card Name with Account Number */}
+            <Block
+              row
+              align="flex-end"
+              justify="space-between"
+              width="100%"
+              padding={sizes.s}
+            >
+              <Text p white transform="uppercase" marginLeft={sizes.s}>
+                {account?.wallets[0]?.name}
+              </Text>
+              <Text
+                size={sizes.sm}
+                white
+                transform="uppercase"
+                marginRight={sizes.s}
+              >
+                {account?.wallets[0]?.alias?.substring(0, 25)}
+              </Text>
+            </Block>
+          </GradientHedera>
+
         </Block>
       </Block>
       {/* Divider Container */}
@@ -143,3 +134,11 @@ export default () => {
     </Block>
   );
 };
+
+// const styles = StyleSheet.create({
+//   container: {
+//       flex: 1,
+//       alignItems: 'center',
+//       justifyContent: 'center',
+//   },
+// });

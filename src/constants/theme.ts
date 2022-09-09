@@ -40,6 +40,7 @@ export const ICONS: ThemeIcons = {
   basket: require('../assets/icons/basket.png'),
   bell: require('../assets/icons/bell.png'),
   calendar: require('../assets/icons/calendar.png'),
+  capture: require('../assets/icons/capture.png'),
   chat: require('../assets/icons/chat.png'),
   check: require('../assets/icons/check.png'),
   clock: require('../assets/icons/clock.png'),
@@ -69,6 +70,7 @@ export const ICONS: ThemeIcons = {
   warning: require('../assets/icons/warning.png'),
   // hbar icon
   hbar: require('../assets/icons/hbar.png'),
+  hedera: require('../assets/icons/hedera.png'),
 };
 
 export const ASSETS: ThemeAssets = {
@@ -84,6 +86,9 @@ export const ASSETS: ThemeAssets = {
   header: require('../assets/images/header.png'),
   background: require('../assets/images/background.png'),
   loginBackground: require('../assets/images/login.jpg'),
+  //custom bg
+  backgroundCurved1: require('../assets/images/curved-11.jpg'),
+  hederagradient: require('../assets/images/hederagradient.png'),
 
   // cards
   card1: require('../assets/images/card1.png'),

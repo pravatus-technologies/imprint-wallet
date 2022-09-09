@@ -1,18 +1,17 @@
-import React, {useCallback} from 'react';
-import {Platform, Linking} from 'react-native';
+import React, { useEffect } from "react";
+import {Platform, TextInput, Linking} from 'react-native';
+import { useNavigation } from '@react-navigation/core';
 import {Ionicons} from '@expo/vector-icons';
-import {useNavigation} from '@react-navigation/core';
-
-import {Block, Button, Image, Text} from '../../../components/';
-import {useData, useTheme, useTranslation} from '../../../hooks/';
+import {Block, Button, Image, Text, Input} from '../../../components';
+import GradientHedera from "../../../components/GradientHedera";
+import {useData, useTheme, useTranslation} from '../../../hooks';
 
 const isAndroid = Platform.OS === 'android';
 
-const Profile = () => {
-  const {user} = useData();
+export default () => {
+  const { sizes, assets, gradients, colors } = useTheme();
   const {t} = useTranslation();
   const navigation = useNavigation();
-  const {assets, colors, sizes} = useTheme();
 
   const IMAGE_SIZE = (sizes.width - (sizes.padding + sizes.sm) * 2) / 3;
   const IMAGE_VERTICAL_SIZE =
@@ -21,37 +20,36 @@ const Profile = () => {
   const IMAGE_VERTICAL_MARGIN =
     (sizes.width - (IMAGE_VERTICAL_SIZE + sizes.sm) * 2) / 2;
 
-  const handleSocialLink = useCallback(
-    (type: 'twitter' | 'dribbble') => {
-      const url =
-        type === 'twitter'
-          ? `https://twitter.com/${user?.social?.twitter}`
-          : `https://dribbble.com/${user?.social?.dribbble}`;
-
-      try {
-        Linking.openURL(url);
-      } catch (error) {
-        alert(`Cannot open URL: ${url}`);
-      }
-    },
-    [user],
-  );
-
   return (
-    <Block safe marginTop={sizes.md}>
+    <Block
+      safe
+      marginTop={sizes.md}
+    >
+
       <Block
         scroll
         paddingHorizontal={sizes.s}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{paddingBottom: sizes.padding}}>
-        <Block flex={0}>
+        contentContainerStyle={{paddingBottom: sizes.padding}}
+      >
+
+        {/* HBAR Info Container */}
+        <Block 
+          marginTop="5%" 
+          radius={sizes.cardRadius} 
+          marginVertical={sizes.m}
+          // marginHorizontal={sizes.width * 0.01}
+          gradient={gradients.tertiary}
+          shadow={true}
+        >
           <Image
             background
             resizeMode="cover"
             padding={sizes.sm}
             paddingBottom={sizes.l}
             radius={sizes.cardRadius}
-            source={assets.background}>
+            source={assets.hederagradient}
+          >
             <Button
               row
               flex={0}
@@ -69,157 +67,91 @@ const Profile = () => {
                 Wallet
               </Text>
             </Button>
+
             <Block flex={0} align="center">
-              <Image
-                width={64}
-                height={64}
-                marginBottom={sizes.sm}
-                source={{uri: user?.avatar}}
-              />
-              <Text h5 center white>
-                {user?.name}
+              <Text p center white size={sizes.sm} marginTop={sizes.sm}>
+                SEND HBARS
               </Text>
-              <Text p center white>
-                {user?.department}
+                <Image
+                  width={85}
+                  height={85}
+                  marginTop={sizes.sm}
+                  marginBottom={sizes.sm}
+                  source={assets.hedera}
+                />
+              <Text h5 center white marginBottom={sizes.sm}>
+                Enter Amount
               </Text>
-              <Block row marginVertical={sizes.m}>
-                <Button
-                  white
-                  outlined
-                  shadow={false}
-                  radius={sizes.m}
-                  onPress={() => {
-                    alert(`Follow ${user?.name}`);
-                  }}>
-                  <Block
-                    justify="center"
-                    radius={sizes.m}
-                    paddingHorizontal={sizes.m}
-                    color="rgba(255,255,255,0.2)">
-                    <Text white bold transform="uppercase">
-                      {t('common.follow')}
-                    </Text>
-                  </Block>
-                </Button>
-                <Button
-                  shadow={false}
-                  radius={sizes.m}
-                  marginHorizontal={sizes.sm}
-                  color="rgba(255,255,255,0.2)"
-                  outlined={String(colors.white)}
-                  onPress={() => handleSocialLink('twitter')}>
-                  <Ionicons
-                    size={18}
-                    name="logo-twitter"
-                    color={colors.white}
-                  />
-                </Button>
-                <Button
-                  shadow={false}
-                  radius={sizes.m}
-                  color="rgba(255,255,255,0.2)"
-                  outlined={String(colors.white)}
-                  onPress={() => handleSocialLink('dribbble')}>
-                  <Ionicons
-                    size={18}
-                    name="logo-dribbble"
-                    color={colors.white}
-                  />
-                </Button>
-              </Block>
+              <Text h1 center white>
+                150
+              </Text>
+              <Text p center white size={sizes.m} paddingTop={12}>
+                $15.00
+              </Text>
+
             </Block>
+
           </Image>
 
-          {/* profile: stats */}
-          <Block
-            flex={0}
-            radius={sizes.sm}
-            shadow={!isAndroid} // disabled shadow on Android due to blur overlay + elevation issue
-            marginTop={-sizes.l}
-            marginHorizontal="8%"
-            color="rgba(255,255,255,0.2)">
-            <Block
-              row
-              blur
-              flex={0}
-              intensity={100}
-              radius={sizes.sm}
-              overflow="hidden"
-              tint={colors.blurTint}
-              justify="space-evenly"
-              paddingVertical={sizes.sm}
-              renderToHardwareTextureAndroid>
-              <Block align="center">
-                <Text h5>{user?.stats?.posts}</Text>
-                <Text>{t('profile.posts')}</Text>
-              </Block>
-              <Block align="center">
-                <Text h5>{(user?.stats?.followers || 0) / 1000}k</Text>
-                <Text>{t('profile.followers')}</Text>
-              </Block>
-              <Block align="center">
-                <Text h5>{(user?.stats?.following || 0) / 1000}k</Text>
-                <Text>{t('profile.following')}</Text>
-              </Block>
+        </Block>
+
+        {/* Alert Container */}
+        <Block>
+          <Text
+            p
+            size={sizes.sm}
+            color={"#FFAA33"} 
+            marginVertical={sizes.s}
+            marginLeft={sizes.s}
+          >
+            Hedera Hashgraph
+          </Text>
+        </Block>
+
+        {/* Input Container */}
+        <Block flex={0} justify="space-between"
+          marginVertical={sizes.m}
+          padding={sizes.s}
+        >
+          {/* Address Container */}
+          <Block flex={0.1}>
+            <Block>
+              <Input gray placeholder="Tap to paste address..." marginBottom={sizes.sm} padding={sizes.s}/>
             </Block>
           </Block>
 
-          {/* profile: about me */}
-          <Block paddingHorizontal={sizes.sm}>
-            <Text h5 semibold marginBottom={sizes.s} marginTop={sizes.sm}>
-              {t('profile.aboutMe')}
-            </Text>
-            <Text p lineHeight={26}>
-              {user?.about}
-            </Text>
-          </Block>
-
-          {/* profile: photo album */}
-          <Block paddingHorizontal={sizes.sm} marginTop={sizes.s}>
-            <Block row align="center" justify="space-between">
-              <Text h5 semibold>
-                {t('common.album')}
-              </Text>
-              <Button>
-                <Text p primary semibold>
-                  {t('common.viewall')}
-                </Text>
-              </Button>
-            </Block>
-            <Block row justify="space-between" wrap="wrap">
-              <Image
-                resizeMode="cover"
-                source={assets?.photo1}
-                style={{
-                  width: IMAGE_VERTICAL_SIZE + IMAGE_MARGIN / 2,
-                  height: IMAGE_VERTICAL_SIZE * 2 + IMAGE_VERTICAL_MARGIN,
-                }}
+          {/* Message Container */}
+          <Block flex={0.1}>
+            <Block marginTop="2%">
+              <Input gray placeholder="Message / Memo ..." 
+                padding={sizes.s}
+                marginBottom={sizes.sm} 
+                multiline
+                numberOfLines={3}
               />
-              <Block marginLeft={sizes.m}>
-                <Image
-                  resizeMode="cover"
-                  source={assets?.photo2}
-                  marginBottom={IMAGE_VERTICAL_MARGIN}
-                  style={{
-                    height: IMAGE_VERTICAL_SIZE,
-                    width: IMAGE_VERTICAL_SIZE,
-                  }}
-                />
-                <Image
-                  resizeMode="cover"
-                  source={assets?.photo3}
-                  style={{
-                    height: IMAGE_VERTICAL_SIZE,
-                    width: IMAGE_VERTICAL_SIZE,
-                  }}
-                />
-              </Block>
             </Block>
           </Block>
         </Block>
+
+        {/* Bottom Button Container */}
+        <Block
+          flex={0.1}
+          // marginHorizontal={sizes.sm}
+          padding={sizes.s}
+          justify="center"
+        >
+          <Button gradient={gradients.primary}
+            onPress={() => navigation.navigate('Send')}
+          >
+            <Text p white transform="uppercase">
+              Send
+            </Text>
+          </Button>
+        </Block>
+
       </Block>
+      
     </Block>
   );
 };
 
-export default Profile;
