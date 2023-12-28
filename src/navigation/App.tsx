@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {Platform, StatusBar} from 'react-native';
 import {useFonts} from 'expo-font';
-import AppLoading from 'expo-app-loading';
+//import AppLoading from 'expo-app-loading';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 
 import Menu from './Menu';
@@ -29,7 +29,7 @@ export default () => {
   });
 
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return null;
   }
 
   const navigationTheme = {
